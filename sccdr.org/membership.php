@@ -96,7 +96,7 @@
                         <span style="font-size: 14px; color: #64748b; font-weight: 500; margin-left: 10px; cursor: pointer;" onclick="document.getElementById('rememberMe').click();">Keep me signed in</span>
                     </div>
                     
-                    <button type="button" class="btn-auth-primary">
+                    <button type="button" class="btn-auth-primary" style="background: #7AD03A; color: #fff;">
                         Sign In <i class="fas fa-arrow-right ml-10"></i>
                     </button>
                 </form>
@@ -167,8 +167,8 @@
                         </div>
                     </div>
                     
-                    <button type="button" class="btn-auth-primary" style="background: var(--heading-color);">
-                        Complete Registration <i class="fas fa-check-circle ml-10"></i>
+                    <button type="button" class="btn-auth-primary" style="background: #144525; color: #fff;">
+                        Sign Up <i class="fas fa-check-circle ml-10"></i>
                     </button>
                     
                     <p class="text-center mt-3" style="font-size: 12px; color: #94a3b8;">
