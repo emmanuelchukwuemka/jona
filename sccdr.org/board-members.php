@@ -4,227 +4,164 @@
     include 'includes/header.php'; 
 ?>        <!-- ========================= header end ========================= -->
 
-   <!-- ========================= hero-section start ========================= -->
-        <section id="home" class="hero-section">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-10 text-center offset-1">
-                        <div class="hero-content-wrapper">
-                            <h1 class="text-white wow fadeInDown" data-wow-delay=".2s">BOARD MEMBERS</h1>
-                            <p>
-                            <a href="/" style="color:#7AD03A;">Home</a> / <span style="color:#ffffff;"> BOARD MEMBERS</span>
-                            </p>
+    <!-- ========================= hero-section start ========================= -->
+    <section id="home" class="hero-section" style="background-image: linear-gradient(rgba(11, 29, 18, 0.7), rgba(11, 29, 18, 0.6)), url('/assets/img/common-bg.jpg'); background-size: cover; background-position: center;">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-10 offset-lg-1 text-center">
+                    <div class="hero-content-wrapper">
+                        <h1 class="text-white wow fadeInDown" data-wow-delay=".2s" style="font-size: 60px; text-shadow: 0 4px 10px rgba(0,0,0,0.3);">Our Leadership</h1>
+                        <div class="breadcrumb-wrapper wow fadeInUp" data-wow-delay=".4s">
+                            <a href="/index.php" style="color: var(--primary); font-weight: 600;">Home</a> 
+                            <span class="mx-3 text-white">/</span> 
+                            <span class="text-white opacity-70">Board Members</span>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-
-        <!--========================= feature-section start========================= -->
-        <section id="feature" class="feature-section pt-80 pb-80">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12 col-md-12">
-
-                        <div class="row">
-                            <div class="col-12">
-                                <h3 class="text-center">WE INTRODUCE YOU TO THE ARCHITECTS BEHIND THE SCCDR | STORY</h3>
-                                
-                            </div>
-                        </div>
-
-
-                        <div class="row mt-5">
-                            <div class="col-12 text-center">
-                                <p>
-                                <img src="/assets/img/team/IKE2.png" class="rounded-circle img-fluid" width="30%" alt="Responsive image">
-                                </p>
-                                <p class="mt-3">
-                                    <h4>Prof. Ike Nwachukwu</h4>
-                                    <h6>President</h6>
-                                </p>
-                                <p style="font-size:14px !important">
-                                Ike Nwachukwu is a Professor of Agricultural Extension and Rural Sociology at the 
-                                Michael Okpara University of Agriculture, Umudike, Nigeria. He holds a B.Sc. 
-                                degree in Mass Communication and Sociology from the University of Lagos, an M.Sc. in Agricultural 
-                                Communication from the Obafemi Awolowo University, Ile Ife. Ike bagged his Ph.D. 
-                                degree in Agricultural Extension and Rural Sociology from the same O A U, Ile Ife, Nigeria.
-                                </p>
-
-                                <p style="font-size:14px !important">
-                                After working at the National Cereals Research Institute, Badeggi as a Research Officer in Agricultural Extension, 
-                                he moved over to the University in 2001. As a Lecturer, his major area of specialization is agricultural communication. 
-                                Other areas of interest include, social impact assessment, gender studies and rural development.
-                                </p>
-
-                                <p style="font-size:14px !important">
-                                Ike has been involved in teaching, research and community service for more than two decades now. 
-                                He has successfully supervised and graduated twenty-two Ph.D students and many Master’s degree students. 
-                                He has published in local and international Journals, more than eighty research papers and has authored 
-                                and co-authored nine books in his field. Ike has consulted for nine local and foreign organizations.
-                                </p>
-
-                                <p style="font-size:14px !important">
-                                Prof. Nwachukwu is well travelled and has participated in many international research fellowships. 
-                                In 2004, he was a Research Fellow at the University of Glasgow, United Kingdom. 
-                                In 2012, he was a Senior Research Adviser at Shell Petroleum Development Company, Port Harcourt, Nigeria. 
-                                His major work in Shell was on the Social Impact Assessment of Shell’s divested projects in Warri. 
-                                He is a Member of the Federal Government’s Agricultural Extension Transformation Agenda, which developed the 
-                                policy document for the transformation of the extension systems in Nigeria. Ike belongs to many professional 
-                                associations to which he is on the Executive Board of some of them. He is the President of the Society for 
-                                Community and Communication Development Research
-                                </p>
-                                <p>
-                                    <i class='fas fa-mail-bulk'></i>
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="row mt-5">
-                            <div class="col-12 text-center">
-                                <p>
-                                <img src="/assets/img/team/ekanem.png" class="rounded-circle img-fluid" width="30%" alt="Responsive image">
-                                </p>
-                                <p class="mt-3">
-                                    <h4>Dr. (Mrs) Jemimah Ekanem</h4>
-                                    <h6>Secretary</h6>
-                                </p>
-                                <p style="font-size:14px !important">
-                                Jemimah Timothy Ekanem is a Senior Lecturer in the Department of Agricultural Economics and Extension of Akwa Ibom State University. 
-                                She obtained her Professional Training at the University of Uyo, Uyo where she graduated as the best final year student in the Department with, 
-                                a Bachelor of Agriculture Degree in Agricultural Economics and Extension. In 2008, she obtained her Master’s degree 
-                                in Agricultural Extension in the same University and proceeded to the Michael Okpara University of Agriculture, Umudike, 
-                                Abia State for a Doctor of Philosophy Degree in the Department of Rural Sociology and Extension and obtained same in 2013. 
-                                She has been involved in Teaching and Research in Agricultural communication, Extension Education, Rural Sociology, Extension Administration, 
-                                Community Development, technology development, dissemination and transfer and others since 2004. Dr. (mrs) Ekanem has published 
-                                widely in International and National Scholarly journals. She has co-authored a book and written book chapters. She has attended National 
-                                and International conferences. She won the first best paper and third best paper awards at Corporate Social Responsibility and Sustainable 
-                                Development conferences held at Dubai, UAE and Addis Ababa, Ethiopia in 2015 and 2017 respectively. In 2009, she was a research intern at 
-                                Shell Petroleum Development Company (SPDC). Dr. (Mrs) Ekanem is happily married with Children.
-                                </p>
-
-                                
-                                <p>
-                                    <i class='fas fa-mail-bulk'></i>
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="row mt-5">
-                            <div class="col-12 text-center">
-                                <p>
-                                <img src="/assets/img/team/yinka3.png" class="rounded-circle img-fluid" width="30%" alt="Responsive image">
-                                </p>
-                                <p class="mt-3">
-                                    <h4>Prof. (Mrs) Olayinka I. Nwachukwu</h4>
-                                    <h6>Member</h6>
-                                </p>
-                                <p style="font-size:14px !important">
-                                Prof. Olayinka I. Nwachukwu has Bachelor of Agriculture and MSc from Obafemi Awolowo University, Nigeria, 
-                                and Ph.D in Soil Science from the University of Glasgow, U. K., on the prestigious Commonwealth Academic 
-                                Staff Scholarship. A holder of multiple academic awards and fellowships, she has won notable national 
-                                and international research grants. She is an accomplished author with several publications in local and 
-                                international journals, has authored books and book chapters on soil, environmental degradation and remediation. 
-                                Prof Nwachukwu is widely travelled, presenting research papers at academic conferences in several countries. 
-                                Her research interests are soil and groundwater contamination, the impact of industrial contamination on the 
-                                life quality of residents in affected communities, and she has achieved notable results in the use of organic 
-                                materials and local plants as viable and potentially sustainable methods of cleaning up contaminated soil. 
-                                She is the Vice President of Organization for Total Women Development (OTWOD), a State registered Community 
-                                Based Organization in Abia State, Nigeria. Through her publications and community service activities, she 
-                                is creating awareness on the dangers of citing industries in residential areas, and advocates the effective 
-                                implementation of existing laws on waste management and disposal. A member of Soil Science Society of Nigeria 
-                                and British Society of Soil Science, Dr Nwachukwu is currently an Associate Professor of Soil Science at 
-                                Michael Okpara University of Agriculture, Nigeria.
-                                </p>
-
-                                
-                                <p>
-                                    <i class='fas fa-mail-bulk'></i>
-                                </p>
-                            </div>
-                        </div>
-
-
-                        <div class="row mt-5">
-                            <div class="col-12 text-center">
-                                <p>
-                                <img src="/assets/img/team/eric.jpeg" class="rounded-circle img-fluid" width="30%" alt="Responsive image">
-                                </p>
-                                <p class="mt-3">
-                                    <h4>Dr. Eric Irozuru</h4>
-                                    <h6>Member</h6>
-                                </p>
-
-                                <p style="font-size:14px !important">
-                                Dr. Irozuru is an Information Technology and Business Strategy consultant with over 25 years of experience, 
-                                who has worked across Europe, Asia and Africa.  He has worked across many private and public sectors including; 
-                                healthcare, travel, local and central governments, security, insurance, motor, utility and energy – oil and gas.
-                                </p>
-
-                                <p style="font-size:14px !important">
-                                Eric’s primary interest is in value engineering, that is, helping organisations to create and realize value from 
-                                their investments in technology and people.  This he does by helping organisations devise strategies and design 
-                                innovative management frameworks for improving the performance of the programmes and projects used to implement 
-                                their business strategy and organisational change, in order to achieve value from these investments.
-                                </p>
-
-                                <p style="font-size:14px !important">
-                                Eric is the founder and chief executive of information technology services company, ECR Technology Services, 
-                                with particular focus on strategy implementation - the synergy from the alignment of IT strategy and business strategy; 
-                                innovation management and ECR’s unique training technique for entrepreneurship.  
-                                </p>
-
-                                <p style="font-size:14px !important">
-                                Eric began his professional career as a Software Engineer in Lagos, Nigeria after serving his nation in the 
-                                National Youth Service Corps (NYSC) in 1984, following his graduation in 1983, from the University of Port Harcourt, 
-                                where he read Mathematics and Computer Science, being a pioneer graduate in Computer Science from that University.  
-                                The stay in Lagos was brief as in 1985, he moved to the United Kingdom for his graduate studies, 
-                                where he has remained ever since. While in the UK, he completed his doctoral programme in information strategies 
-                                and management frameworks.  And later, added a Masters in Business Administration from the renowned Manchester 
-                                Business School, in order to provide the breath, width and vision to his business horizon that he felt a 
-                                PhD programme didn’t give him.
-                                </p>
-
-                                <p style="font-size:14px !important">
-                                Following his Master’s programme, Eric resumed his career as a Software Engineer in the UK, working 
-                                for the National Health Service (NHS).  A spell that lasted about 12 years, before he became 
-                                an independent consultant, consulting to companies across Europe and Asia.  In recent years, 
-                                Eric began looking homewards by consulting to companies in Africa, in particular Nigeria his fatherland.
-                                </p>
-
-                                <p style="font-size:14px !important">
-                                Besides his role at ECR, Eric is also a co-founder and director of Kabod Place Enterprise Limited, 
-                                an Information Technology company with focus on online services and general IT management, with offices in the UK and Nigeria.
-                                </p>
-
-                                <p style="font-size:14px !important">
-                                In addition, Eric is a coach, counsellor and speaker.  At his spare time Eric helps at his local church and doubles as a lay Bible teacher.  
-                                Eric maintains contact with his roots in Africa through active membership of his community's believers association - Amakama Believers Association (ABA) 
-                                of which he is also a patron. He holds the following academic qualifications:
-                                </p>
-                                <p style="font-size:14px !important">
-                                PhD (Information Systems – Strategies and Frameworks), University of Salford, UK <br/>
-                                MBA (Strategy & Change Management), Manchester Business School, Manchester, UK <br/>
-                                MSc (Computer Science), University of Salford, Salford, UK <br/>
-                                BSc (Hons) Mathematics and Computer Science, University of Port Harcourt, Nigeria
-                                </p>
-                                
-
-                                
-                                <p>
-                                    <i class='fas fa-mail-bulk'></i>
-                                </p>
-                            </div>
-                        </div>
-
-                     
-
+    <!--========================= Board section start========================= -->
+    <section id="board" class="feature-section pt-100 pb-100">
+        <div class="container">
+            <div class="row mb-60">
+                <div class="col-lg-8 offset-lg-2 text-center">
+                    <div class="section-modern-title mb-40">
+                        <h4 class="wow fadeInUp" data-wow-delay=".2s">The Architects of SCCDR</h4>
+                        <h1 class="wow fadeInUp" data-wow-delay=".4s" style="font-size: 36px;">Meet the Visionaries Behind Our Mission</h1>
+                        <p class="wow fadeInUp mt-20" data-wow-delay=".6s" style="font-size: 18px; color: var(--text-muted);">
+                            Our board is comprised of distinguished academics and industry leaders dedicated 
+                            to advancing community development through research and innovation.
+                        </p>
                     </div>
+                </div>
+            </div>
 
+            <div class="row justify-content-center">
+                <!-- Member 1: Prof. Ike Nwachukwu -->
+                <div class="col-lg-11 mb-50">
+                    <div class="card-modern wow fadeInUp" data-wow-delay=".2s" style="background: #fff; border-radius: 30px; overflow: hidden; box-shadow: var(--shadow-lg); border: 1px solid #f0f0f0; padding: 50px;">
+                        <div class="row align-items-center">
+                            <div class="col-lg-4 text-center mb-30 mb-lg-0">
+                                <div class="image-wrapper p-3" style="background: #f8fcf7; border-radius: 50%; display: inline-block;">
+                                    <img src="/assets/img/team/IKE2.png" class="rounded-circle shadow-lg" alt="Prof. Ike Nwachukwu" style="width: 250px; height: 250px; object-fit: cover; border: 8px solid #fff;">
+                                </div>
+                                <div class="mt-25">
+                                    <h3 style="color: var(--secondary); font-weight: 700;">Prof. Ike Nwachukwu</h3>
+                                    <p class="text-uppercase tracking-wider" style="color: var(--primary); font-weight: 600; font-size: 14px;">President</p>
+                                    <div class="social-links mt-15">
+                                        <a href="#" class="btn btn-outline-success btn-sm rounded-circle"><i class="fas fa-envelope"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-8">
+                                <div class="bio-content px-lg-4">
+                                    <p class="mb-20" style="font-size: 16px; line-height: 1.8; color: #444;">
+                                        Ike Nwachukwu is a Professor of Agricultural Extension and Rural Sociology at the Michael Okpara University of Agriculture, Umudike, Nigeria. He holds diverse academic qualifications including a B.Sc. in Mass Communication and Sociology from the University of Lagos and a Ph.D. from Obafemi Awolowo University.
+                                    </p>
+                                    <p class="mb-20" style="font-size: 16px; line-height: 1.8; color: #444;">
+                                        With over two decades of experience, he has successfully supervised twenty-two Ph.D. students and authored more than eighty research papers. He has consulted for nine local and foreign organizations and served as a Research Fellow at the University of Glasgow, UK.
+                                    </p>
+                                    <p style="font-size: 16px; line-height: 1.8; color: #444;">
+                                        In 2012, he served as a Senior Research Adviser at Shell Petroleum Development Company and is currently a member of the Federal Government’s Agricultural Extension Transformation Agenda.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
+                <!-- Member 2: Dr. Jemimah Ekanem -->
+                <div class="col-lg-11 mb-50">
+                    <div class="card-modern wow fadeInUp" data-wow-delay=".4s" style="background: #f9fbf8; border-radius: 30px; overflow: hidden; box-shadow: var(--shadow-md); border: 1px solid #eef2eb; padding: 50px;">
+                        <div class="row align-items-center">
+                            <div class="col-lg-8 order-2 order-lg-1">
+                                <div class="bio-content px-lg-4">
+                                    <h3 style="color: var(--secondary); font-weight: 700;" class="mb-5">Dr. (Mrs) Jemimah Ekanem</h3>
+                                    <p class="text-uppercase mb-20" style="color: var(--primary); font-weight: 600; font-size: 14px;">Secretary</p>
+                                    <p class="mb-20" style="font-size: 16px; line-height: 1.8; color: #444;">
+                                        Jemimah Timothy Ekanem is a Senior Lecturer at Akwa Ibom State University. She holds a Ph.D. in Rural Sociology and Extension from Michael Okpara University of Agriculture, Umudike. She has been a pioneer in agricultural communication and extension education since 2004.
+                                    </p>
+                                    <p style="font-size: 16px; line-height: 1.8; color: #444;">
+                                        A multi-award winner at international conferences in Dubai and Addis Ababa, she is also a former research intern at Shell Petroleum Development Company (SPDC). She has published widely in both national and international scholarly journals.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 text-center order-1 order-lg-2 mb-30 mb-lg-0">
+                                <div class="image-wrapper p-3" style="background: #fff; border-radius: 50%; display: inline-block; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                                    <img src="/assets/img/team/ekanem.png" class="rounded-circle" alt="Dr. Jemimah Ekanem" style="width: 250px; height: 250px; object-fit: cover; border: 8px solid #f8fcf7;">
+                                </div>
+                                <div class="social-links mt-25">
+                                    <a href="#" class="btn btn-outline-success btn-sm rounded-circle"><i class="fas fa-envelope"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Member 3: Prof. (Mrs) Olayinka I. Nwachukwu -->
+                <div class="col-lg-11 mb-50">
+                    <div class="card-modern wow fadeInUp" data-wow-delay=".6s" style="background: #fff; border-radius: 30px; overflow: hidden; box-shadow: var(--shadow-lg); border: 1px solid #f0f0f0; padding: 50px;">
+                        <div class="row align-items-center">
+                            <div class="col-lg-4 text-center mb-30 mb-lg-0">
+                                <div class="image-wrapper p-3" style="background: #fdfaf8; border-radius: 50%; display: inline-block;">
+                                    <img src="/assets/img/team/yinka3.png" class="rounded-circle shadow-lg" alt="Prof. Olayinka Nwachukwu" style="width: 250px; height: 250px; object-fit: cover; border: 8px solid #fff;">
+                                </div>
+                                <div class="mt-25">
+                                    <h3 style="color: var(--secondary); font-weight: 700;">Prof. Olayinka I. Nwachukwu</h3>
+                                    <p class="text-uppercase tracking-wider" style="color: var(--primary); font-weight: 600; font-size: 14px;">Member</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-8">
+                                <div class="bio-content px-lg-4">
+                                    <p class="mb-20" style="font-size: 16px; line-height: 1.8; color: #444;">
+                                        Prof. Olayinka I. Nwachukwu holds a Ph.D. in Soil Science from the University of Glasgow, UK, as a Commonwealth Academic Staff Scholar. She is an Associate Professor of Soil Science at Michael Okpara University of Agriculture, Nigeria.
+                                    </p>
+                                    <p style="font-size: 16px; line-height: 1.8; color: #444;">
+                                        Her research focuses on soil and groundwater contamination and sustainable remediation methods using organic materials. She is also the Vice President of the Organization for Total Women Development (OTWOD), actively advocating for environmental safety and waste management.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Member 4: Dr. Eric Irozuru -->
+                <div class="col-lg-11 mb-50">
+                    <div class="card-modern wow fadeInUp" data-wow-delay=".8s" style="background: #f9fbf8; border-radius: 30px; overflow: hidden; box-shadow: var(--shadow-md); border: 1px solid #eef2eb; padding: 50px;">
+                        <div class="row align-items-center">
+                            <div class="col-lg-8 order-2 order-lg-1">
+                                <div class="bio-content px-lg-4">
+                                    <h3 style="color: var(--secondary); font-weight: 700;" class="mb-5">Dr. Eric Irozuru</h3>
+                                    <p class="text-uppercase mb-20" style="color: var(--primary); font-weight: 600; font-size: 14px;">Member</p>
+                                    <p class="mb-15" style="font-size: 16px; line-height: 1.8; color: #444;">
+                                        Dr. Irozuru is an Information Technology and Business Strategy consultant with over 25 years of international experience across Europe, Asia, and Africa. He is the founder of ECR Technology Services, focusing on IT strategy alignment and innovation management.
+                                    </p>
+                                    <p class="mb-15" style="font-size: 14px; font-weight: 600; color: var(--secondary);">Qualifications:</p>
+                                    <ul class="list-unstyled" style="font-size: 14px; color: #666; line-height: 1.8;">
+                                        <li><i class="fas fa-graduation-cap mr-10 text-success"></i> PhD, Information Systems - University of Salford, UK</li>
+                                        <li><i class="fas fa-graduation-cap mr-10 text-success"></i> MBA, Strategy & Change Management - Manchester Business School, UK</li>
+                                        <li><i class="fas fa-graduation-cap mr-10 text-success"></i> MSc, Computer Science - University of Salford, UK</li>
+                                        <li><i class="fas fa-graduation-cap mr-10 text-success"></i> BSc (Hons) Mathematics & CS - Uni Port Harcourt, Nigeria</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 text-center order-1 order-lg-2 mb-30 mb-lg-0">
+                                <div class="image-wrapper p-3" style="background: #fff; border-radius: 50%; display: inline-block; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                                    <img src="/assets/img/team/eric.jpeg" class="rounded-circle" alt="Dr. Eric Irozuru" style="width: 250px; height: 250px; object-fit: cover; border: 8px solid #f8fcf7;">
+                                </div>
+                                <div class="social-links mt-25">
+                                    <a href="#" class="btn btn-outline-success btn-sm rounded-circle"><i class="fas fa-link"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </div>
+    </section>
+    <!--========================= Board section end========================= -->>
         </section>
         <!--========================= feature-section end========================= -->
 

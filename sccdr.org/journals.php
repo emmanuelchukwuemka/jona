@@ -4,7 +4,7 @@
     include 'includes/header.php'; 
 ?>        <!-- ========================= header end ========================= -->
 
-      <section id="home" class="hero-section" style="background-image: url('/assets/img/common-bg.jpg'); background-size: cover; background-position: center;">
+      <section id="home" class="hero-section" style="background-image: url('/assets/img/slideImg2.jpeg'); background-size: cover; background-position: center;">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-10 offset-lg-1 text-center">

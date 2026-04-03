@@ -117,20 +117,47 @@ h1, h2, h3, h4, h5, h6 {
     background-color: var(--secondary);
 }
 
-/* Dropdown color fix */
+/* Dropdown color fix & Hover behavior */
 .header.navbar-area.sticky .nav-item .dropdown-item {
     color: var(--secondary) !important;
+}
+
+@media (min-width: 992px) {
+    .navbar-nav .nav-item.dropdown:hover .dropdown-menu {
+        display: block;
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+    
+    .navbar-nav .dropdown-menu {
+        display: block;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(15px);
+        transition: all 0.3s ease-in-out;
+    }
+}
+
+.dropdown-item:hover {
+    background: var(--primary) !important;
+    color: #fff !important;
 }
 
 /* --- Hero Section Refinement --- */
 .hero-section {
     position: relative;
-    height: 100vh;
+    height: 50vh;
+    min-height: 400px;
     display: flex;
     align-items: center;
     background-size: cover;
     background-position: center;
     overflow: hidden;
+}
+
+.hero-section.home-hero {
+    height: 85vh;
 }
 
 .hero-section::before {

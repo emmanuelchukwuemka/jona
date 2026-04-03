@@ -5,7 +5,7 @@
 ?>        <!-- ========================= header end ========================= -->
 
         <!-- ========================= hero-section start ========================= -->
-        <section id="home" class="hero-section" style="background-image: url('/assets/img/slideImg1.jpeg');">
+        <section id="home" class="hero-section home-hero" style="background-image: url('/assets/img/slideImg1.jpeg');">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-10 offset-lg-1 text-center">

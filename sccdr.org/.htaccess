@@ -10,15 +10,14 @@
     RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/admin/index\.php [NC]
     RewriteRule ^admin/index\.php$ /admin/ [R=301,L]
 
+    # Redirect explicit .php requests to extensionless (only for top-level files)
+    RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+(about-sccdr|board-members|contact-us|journals|our-values|resources)\.php [NC]
+    RewriteRule ^(.+)\.php$ /$1 [R=301,L]
+
     # Serve .php files without the extension
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME}\.php -f
     RewriteRule ^(.*)$ $1.php [L]
-
-    # Optional: Redirect explicit .php requests to extensionless
-    # Only if NOT an internal redirect
-    RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+(.+)\.php [NC]
-    RewriteRule ^(.+)\.php$ /$1 [R=301,L]
 
 </IfModule>
 

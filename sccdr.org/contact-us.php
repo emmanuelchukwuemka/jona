@@ -4,139 +4,121 @@
     include 'includes/header.php'; 
 ?>        <!-- ========================= header end ========================= -->
 
-   <!-- ========================= hero-section start ========================= -->
-        <section id="home" class="hero-section">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-10 text-center offset-1">
-                        <div class="hero-content-wrapper">
-                            <h1 class="text-white wow fadeInDown" data-wow-delay=".2s">CONTACT US</h1>
-                            <p>
-                                <a href="/" style="color:#7AD03A;">Home</a> / <span style="color:#ffffff;"> CONTACT US </span>
-                            </p>
+    <!-- ========================= hero-section start ========================= -->
+    <section id="home" class="hero-section" style="background-image: linear-gradient(rgba(11, 29, 18, 0.7), rgba(11, 29, 18, 0.6)), url('/assets/img/common-bg.jpg'); background-size: cover; background-position: center;">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-10 offset-lg-1 text-center">
+                    <div class="hero-content-wrapper">
+                        <h1 class="text-white wow fadeInDown" data-wow-delay=".2s" style="font-size: 60px; text-shadow: 0 4px 10px rgba(0,0,0,0.3);">Get In Touch</h1>
+                        <div class="breadcrumb-wrapper wow fadeInUp" data-wow-delay=".4s">
+                            <a href="/index.php" style="color: var(--primary); font-weight: 600;">Home</a> 
+                            <span class="mx-3 text-white">/</span> 
+                            <span class="text-white opacity-70">Contact Us</span>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
+    <!--========================= Contact section start========================= -->
+    <section id="contact" class="contact-section pt-100 pb-100">
+        <div class="container">
+            <div class="row">
+                <!-- Contact Info -->
+                <div class="col-lg-4">
+                    <div class="contact-info-wrapper">
+                        <div class="section-modern-title text-left mb-50" style="text-align: left;">
+                            <h4 class="wow fadeInUp" data-wow-delay=".2s">Contact Information</h4>
+                            <h2 class="wow fadeInUp" data-wow-delay=".4s" style="font-size: 32px; color: var(--secondary);">Reach Out to Us</h2>
+                        </div>
 
-        <!--========================= feature-section start========================= -->
-        <section id="feature" class="feature-section pt-80 pb-80">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12 col-md-8">
-
-                        <div class="row">
-                            <div class="col-12 text-center">
-                                <h3>Dear Visitor</h3>
-                                <p>Please fill form to contact us</p>
+                        <div class="contact-card wow fadeInUp" data-wow-delay=".2s" style="background: #fff; padding: 30px; border-radius: 20px; box-shadow: var(--shadow-md); margin-bottom: 30px; border-left: 5px solid var(--primary);">
+                            <div class="d-flex align-items-center">
+                                <div class="icon-box mr-20" style="width: 50px; height: 50px; background: rgba(122, 208, 58, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--primary);">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div>
+                                    <h5 style="font-size: 18px; margin-bottom: 5px;">Our Location</h5>
+                                    <p style="font-size: 14px; color: var(--text-muted);">MOUAU Extension Centre (MEC), Umudike.</p>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="row mt-5">
-                            <div class="col-12 col-md-8 offset-md-2 text-left">
-                               
-
-                                <form method="POST" action="{{ route('contactform.store') }}">
-                                    
-                                    <div class="form-group row">
-                                        <div class="col-12">
-                                            <input id="firstName" 
-                                                style="border-radius: 30px !important;" 
-                                                placeholder="First Name" 
-                                                type="text" 
-                                                class="form-control" 
-                                                name="firstname" 
-                                                autocomplete="firstname" 
-                                                autofocus
-                                            >
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row mt-3">
-                                        <div class="col-12">
-                                            <input id="lastName" 
-                                                style="border-radius: 30px !important;" 
-                                                placeholder="Last Name" 
-                                                type="text" 
-                                                class="form-control" 
-                                                name="lastname" 
-                                                autocomplete="lastname" 
-                                                autofocus
-                                            >
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row mt-3">
-                                        <div class="col-12">
-                                            <input id="email" 
-                                                style="border-radius: 30px !important;" 
-                                                placeholder="Email" 
-                                                type="email" 
-                                                class="form-control" name="email" 
-                                                required 
-                                                autocomplete="email" autofocus>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row mt-3">
-                                        <div class="col-12">
-                                            <input id="phone" 
-                                                style="border-radius: 30px !important;" 
-                                                placeholder="Phone" 
-                                                type="text" 
-                                                class="form-control" 
-                                                name="phone" 
-                                                autocomplete="phone" 
-                                                autofocus
-                                            >
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row mt-3">
-                                        <div class="col-12">
-                                            <label> Comment</label><br/>
-                                            <textarea style="border-radius: 30px !important;" class="form-control" name="comments" rows="10"></textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row mb-0 mt-3">
-                                        <div class="col-md-8">
-                                        </div>
-                                    </div>
-                                
-
-                                    <div class="form-group row mt-3">
-                                        <div class="col-10 offset-1">
-                                            <button type="submit" value="SCCDR | Send" class="theme-btn  wow fadeInUp">
-                                                Submit
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
+                        <div class="contact-card wow fadeInUp" data-wow-delay=".4s" style="background: #fff; padding: 30px; border-radius: 20px; box-shadow: var(--shadow-md); margin-bottom: 30px; border-left: 5px solid var(--secondary);">
+                            <div class="d-flex align-items-center">
+                                <div class="icon-box mr-20" style="width: 50px; height: 50px; background: rgba(58, 66, 78, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--secondary);">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div>
+                                    <h5 style="font-size: 18px; margin-bottom: 5px;">Email Us</h5>
+                                    <p style="font-size: 14px; color: var(--text-muted);">info@sccdr.org.ng</p>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="row mt-5">
-                            <div class="col-12 col-md-10 offset-md-2 text-left">
-                               <h5>Society for Community and Communication Development Research</h5>
-                               <p class="lead" style="font-size:14px; color:#000000;">
-                                   Department of Agricultural Extension and Rural Development <br/>
-                                   Michael Okpara University of Agriculture, <br/>
-                                   Umudike. PMB 7267 Umuahia Abia<br/>
-                                   State, Nigeria. <br/>
-                                   Email: <a href="mailto:info@sccdr.org" style="color:#000000;">info@sccdr.org</a><br/>
-                                   Phone: <a href="tel:+2348035485064" style="color:#000000;">+2348035485064</a>
-                                </p>
+                        <div class="contact-card wow fadeInUp" data-wow-delay=".6s" style="background: #fff; padding: 30px; border-radius: 20px; box-shadow: var(--shadow-md); border-left: 5px solid var(--primary);">
+                            <div class="d-flex align-items-center">
+                                <div class="icon-box mr-20" style="width: 50px; height: 50px; background: rgba(122, 208, 58, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--primary);">
+                                    <i class="fas fa-phone-alt"></i>
+                                </div>
+                                <div>
+                                    <h5 style="font-size: 18px; margin-bottom: 5px;">Call Support</h5>
+                                    <p style="font-size: 14px; color: var(--text-muted);">+234 803 548 5064</p>
+                                </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
 
+                <!-- Contact Form -->
+                <div class="col-lg-8">
+                    <div class="contact-form-wrapper wow fadeInRight" data-wow-delay=".4s" style="background: #fff; padding: 50px; border-radius: 30px; box-shadow: var(--shadow-lg);">
+                        <div class="section-modern-title text-left mb-40" style="text-align: left;">
+                            <h2 style="font-size: 28px; color: var(--secondary);">Send a Message</h2>
+                        </div>
+                        
+                        <form action="#" method="POST" id="contact-form">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-25">
+                                        <input type="text" name="firstname" placeholder="First Name" style="width: 100%; padding: 15px 25px; border-radius: 30px; border: 1px solid #eee; background: #fdfdfd;" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mb-25">
+                                        <input type="text" name="lastname" placeholder="Last Name" style="width: 100%; padding: 15px 25px; border-radius: 30px; border: 1px solid #eee; background: #fdfdfd;" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mb-25">
+                                        <input type="email" name="email" placeholder="Email Address" style="width: 100%; padding: 15px 25px; border-radius: 30px; border: 1px solid #eee; background: #fdfdfd;" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mb-25">
+                                        <input type="text" name="phone" placeholder="Phone Number" style="width: 100%; padding: 15px 25px; border-radius: 30px; border: 1px solid #eee; background: #fdfdfd;">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group mb-40">
+                                        <textarea name="comments" placeholder="Your Message" rows="6" style="width: 100%; padding: 20px 25px; border-radius: 20px; border: 1px solid #eee; background: #fdfdfd;"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-12 text-right">
+                                    <button type="submit" class="theme-btn-modern">
+                                        <i class="fas fa-paper-plane mr-10"></i> Send Message
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-        </section>
+        </div>
+    </section>
+    <!--========================= Contact section end========================= -->
         <!--========================= feature-section end========================= -->
         <!--========================= Conferences & WorkShops end========================= -->
          

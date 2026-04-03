@@ -59,8 +59,8 @@
                     <a class="navbar-brand" href="/">
                         <img src="/assets/img/logo.png" alt="Logo">
                     </a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse"
-                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                         <span class="toggler-icon"></span>
                         <span class="toggler-icon"></span>
@@ -68,33 +68,30 @@
                     </button>
                     <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
                         <ul id="nav" class="navbar-nav ml-auto">
-                             <li class="nav-item">
-                                <a href="/">Home</a>
-                            </li>
-                            <li class="nav-item"> 
-                                <a class="" href="/journals">Journals</a>
-                            </li>
-                            <li class="nav-item"> 
-                                <a class="" href="/resources">Resources</a>
-                            </li>
                             <li class="nav-item">
-                                <div class="dropdown show">
-                                    <a class="" href="/about-sccdr" role="button" id="dropdownMenuLink" data-toggle="dropdown">
-                                        About Us <i class="fas fa-angle-down"></i>
-                                    </a>
-
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                        <a class="dropdown-item" style="color:black; padding-left:10px;" href="/about-sccdr">The Story</a>
-                                        <a class="dropdown-item" style="color:black; padding-left:10px;" href="/our-values">Our Values</a>
-                                        <a class="dropdown-item" style="color:black; padding-left:10px;" href="/board-members">Board</a>
-                                    </div>
-                                </div>
+                                <a href="/index.php">Home</a>
                             </li>
                             <li class="nav-item"> 
-                                <a class="" href="/contact-us">Contact Us</a>
+                                <a class="" href="/journals.php">Journals</a>
                             </li>
                             <li class="nav-item"> 
-                                <a class="nav-btn" href="/admin" style="background: var(--primary); color: white; padding: 8px 20px; border-radius: 30px; margin-left: 15px;">Admin Login</a>
+                                <a class="" href="/resources.php">Resources</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    About Us <i class="fas fa-angle-down"></i>
+                                </a>
+                                <ul class="dropdown-menu shadow-lg border-0" aria-labelledby="navbarDropdown" style="border-radius: 15px; padding: 15px; min-width: 200px; background: rgba(255,255,255,0.98); backdrop-filter: blur(10px);">
+                                    <li><a class="dropdown-item mb-2" style="border-radius: 8px; padding: 10px 15px; transition: var(--transition);" href="/about-sccdr.php">The Story</a></li>
+                                    <li><a class="dropdown-item mb-2" style="border-radius: 8px; padding: 10px 15px; transition: var(--transition);" href="/our-values.php">Our Values</a></li>
+                                    <li><a class="dropdown-item" style="border-radius: 8px; padding: 10px 15px; transition: var(--transition);" href="/board-members.php">Board</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item"> 
+                                <a class="" href="/contact-us.php">Contact Us</a>
+                            </li>
+                            <li class="nav-item"> 
+                                <a class="nav-btn" href="/admin/index.php" style="background: var(--primary); color: white; padding: 8px 20px; border-radius: 30px; margin-left: 15px;">Admin Login</a>
                             </li>
                         </ul>
                     </div> <!-- navbar collapse -->
