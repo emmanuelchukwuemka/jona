@@ -1,5 +1,5 @@
 <?php
-require_once '../../../../includes/config.php';
+require_once __DIR__ . '/../../../includes/config.php';
 
 // Fetch all real users from DB
 $allUsers = $pdo->query("SELECT id, first_name, last_name, email, membership_category, role, profile_picture, created_at FROM users ORDER BY created_at DESC")->fetchAll(PDO::FETCH_ASSOC);

@@ -1,6 +1,6 @@
 <?php
 // Ensure the messages table exists (in case someone visits admin before any contact submission)
-require_once '../../../../includes/config.php';
+require_once __DIR__ . '/../../../includes/config.php';
 $pdo->exec("CREATE TABLE IF NOT EXISTS `messages` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `first_name` varchar(100) NOT NULL,
