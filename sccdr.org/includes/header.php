@@ -91,7 +91,10 @@
                                 <a class="" href="/contact-us.php">Contact Us</a>
                             </li>
                             <li class="nav-item"> 
-                                <a class="nav-btn" href="/admin/index.php" style="background: var(--primary); color: white; padding: 8px 20px; border-radius: 30px; margin-left: 15px;">Admin Login</a>
+                                <a class="nav-btn" href="/membership.php" style="background: var(--primary); color: white; padding: 8px 20px; border-radius: 30px; margin-left: 15px;">Member Portal</a>
+                            </li>
+                            <li class="nav-item"> 
+                                <a class="nav-btn" href="/admin/index.php" style="background: transparent; color: var(--heading-color); border: 1px solid var(--heading-color); padding: 7px 18px; border-radius: 30px; margin-left: 10px;">Admin Login</a>
                             </li>
                         </ul>
                     </div> <!-- navbar collapse -->
