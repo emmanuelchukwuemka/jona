@@ -61,22 +61,36 @@ h1, h2, h3, h4, h5, h6 {
 .navbar-brand img {
     height: 50px;
     transition: var(--transition);
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
+.header.navbar-area.sticky .navbar-brand img {
+    height: 45px;
 }
 
 #nav .nav-item a {
     font-weight: 500;
-    color: var(--white); /* Added white color as requested */
+    color: var(--white);
     text-transform: capitalize;
     margin: 0 15px;
     position: relative;
     transition: var(--transition);
-    opacity: 0.85;
+    opacity: 0.9;
+}
+
+.header.navbar-area.sticky #nav .nav-item a {
+    color: var(--secondary) !important;
+    opacity: 1;
 }
 
 #nav .nav-item a:hover {
     opacity: 1;
-    color: var(--white);
+    color: var(--primary);
     transform: translateY(-2px);
+}
+
+.header.navbar-area.sticky #nav .nav-item a:hover {
+    color: var(--primary) !important;
 }
 
 #nav .nav-item a::after {
@@ -92,6 +106,20 @@ h1, h2, h3, h4, h5, h6 {
 
 #nav .nav-item a:hover::after {
     width: 100%;
+}
+
+/* Toggler Icon Visibility */
+.navbar-toggler .toggler-icon {
+    background-color: var(--white);
+}
+
+.header.navbar-area.sticky .navbar-toggler .toggler-icon {
+    background-color: var(--secondary);
+}
+
+/* Dropdown color fix */
+.header.navbar-area.sticky .nav-item .dropdown-item {
+    color: var(--secondary) !important;
 }
 
 /* --- Hero Section Refinement --- */
