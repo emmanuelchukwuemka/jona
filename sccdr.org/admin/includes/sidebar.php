@@ -1,7 +1,7 @@
 <!-- Sidebar -->
 <aside class="sidebar">
     <div class="sidebar-logo">
-        <img src="../assets/img/logo.png" alt="SCCDR Logo">
+        <img src="/assets/img/logo.png" alt="SCCDR Logo">
     </div>
     
     <div class="sidebar-content">
@@ -60,7 +60,7 @@
             </div>
         </div>
         <div class="footer-actions">
-            <a href="../index.php" class="footer-action" title="View Site">
+            <a href="../" class="footer-action" title="View Site">
                 <i class="fas fa-external-link-alt"></i>
             </a>
             <a href="#" class="footer-action logout-action" title="Logout">

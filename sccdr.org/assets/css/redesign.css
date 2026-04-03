@@ -1,0 +1,339 @@
+/* 
+    SCCDR Modern Redesign System 
+    Author: Antigravity AI
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+    /* Color Palette - Restored to Original Brand Colors */
+    --primary: #7AD03A; 
+    --primary-dark: #66b030;
+    --secondary: #3A424E; 
+    --accent: #F59E0B;
+    --background: #F4F7FC;
+    --text-main: #65677E;
+    --text-muted: #888888;
+    --white: #FFFFFF;
+    
+    /* Effects */
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.3);
+    --glass-blur: blur(12px);
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Base Redesign Overrides */
+body {
+    font-family: 'Inter', sans-serif;
+    color: var(--text-main);
+    background-color: var(--background);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Outfit', sans-serif;
+    color: var(--primary); /* Restored to original brand green */
+    font-weight: 700;
+}
+
+/* --- Navigation Redesign --- */
+.header.navbar-area {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    transition: var(--transition);
+    padding: 10px 0;
+    background: rgba(11, 29, 18, 0.4);
+}
+
+.header.navbar-area.sticky {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    border-bottom: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-md);
+    padding: 5px 0;
+}
+
+.navbar-brand img {
+    height: 50px;
+    transition: var(--transition);
+}
+
+#nav .nav-item a {
+    font-weight: 500;
+    color: var(--white); /* Added white color as requested */
+    text-transform: capitalize;
+    margin: 0 15px;
+    position: relative;
+    transition: var(--transition);
+    opacity: 0.85;
+}
+
+#nav .nav-item a:hover {
+    opacity: 1;
+    color: var(--white);
+    transform: translateY(-2px);
+}
+
+#nav .nav-item a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary);
+    transition: var(--transition);
+}
+
+#nav .nav-item a:hover::after {
+    width: 100%;
+}
+
+/* --- Hero Section Refinement --- */
+.hero-section {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(6, 95, 70, 0.5) 0%, rgba(16, 185, 129, 0.3) 100%);
+    z-index: 1;
+}
+
+.hero-content-wrapper {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+}
+
+.hero-content-wrapper h4 {
+    color: var(--white) !important;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.9;
+}
+
+.hero-content-wrapper h1 {
+    font-size: 4.5rem;
+    line-height: 1.1;
+    margin-bottom: 25px;
+    color: var(--white) !important;
+    text-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.hero-content-wrapper p {
+    font-size: 1.25rem;
+    font-weight: 400;
+    opacity: 0.9;
+    letter-spacing: 0.5px;
+}
+
+.theme-btn-modern {
+    background: var(--primary);
+    color: white !important;
+    padding: 14px 36px;
+    border-radius: 50px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+    transition: var(--transition);
+    border: none;
+}
+
+.theme-btn-modern:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(16, 185, 129, 0.5);
+    background: var(--primary-dark);
+}
+
+/* --- Component Section: Cards --- */
+.card-modern {
+    background: var(--white);
+    padding: 40px 30px;
+    border-radius: 20px;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition);
+    border: 1px solid rgba(0,0,0,0.05);
+    height: 100%;
+    text-align: center;
+}
+
+.card-modern:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary);
+}
+
+.card-modern .icon-wrapper {
+    width: 80px;
+    height: 80px;
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--primary);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    margin: 0 auto 25px;
+    transition: var(--transition);
+}
+
+.card-modern:hover .icon-wrapper {
+    background: var(--primary);
+    color: white;
+    transform: rotate(10deg);
+}
+
+/* --- Section Titles --- */
+.section-modern-title {
+    margin-bottom: 60px;
+    text-align: center;
+}
+
+.section-modern-title h4 {
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-size: 14px;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.section-modern-title h1 {
+    font-size: 3rem;
+    position: relative;
+    padding-bottom: 20px;
+}
+
+.section-modern-title h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: var(--primary);
+    border-radius: 2px;
+}
+
+/* --- News & Updates --- */
+.news-card {
+    border-radius: 20px;
+    overflow: hidden;
+    background: white;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition);
+    margin-bottom: 30px;
+}
+
+.news-card:hover {
+    transform: scale(1.02);
+    box-shadow: var(--shadow-lg);
+}
+
+.news-card-body {
+    padding: 30px;
+}
+
+.news-date {
+    color: var(--text-muted);
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+.news-title {
+    font-size: 1.25rem;
+    margin-bottom: 15px;
+    color: var(--primary); /* Restored original color */
+}
+
+/* --- Call to Action (Events) --- */
+.countdown-section.glass-overlay {
+    background-size: cover;
+    background-attachment: fixed;
+    position: relative;
+    padding: 120px 0;
+}
+
+.countdown-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(11, 29, 18, 0.9) 0%, rgba(11, 29, 18, 0.1) 100%);
+    z-index: 1;
+}
+
+.cta-glass-box {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 50px;
+    border-radius: 30px;
+    color: white;
+}
+
+/* --- Footer Modernization --- */
+.footer {
+    background: #0B1D12;
+    color: rgba(255, 255, 255, 0.8);
+    position: relative;
+    overflow: hidden;
+}
+
+.footer-widget-title {
+    color: white;
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.footer-widget-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    width: 40px;
+    height: 2px;
+    background: var(--primary);
+}
+
+.footer-social-links a {
+    width: 45px;
+    height: 45px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    transition: var(--transition);
+}
+
+.footer-social-links a:hover {
+    background: var(--primary);
+    transform: translateY(-5px);
+}
+
+/* Responsive Fixes */
+@media (max-width: 991px) {
+    .hero-content-wrapper h1 {
+        font-size: 3rem;
+    }
+}
