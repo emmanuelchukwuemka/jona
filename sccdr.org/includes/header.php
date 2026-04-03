@@ -1,3 +1,8 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
 <!doctype html>
 <html class="no-js" lang="en">
     <head>
@@ -90,12 +95,18 @@
                             <li class="nav-item"> 
                                 <a class="" href="/contact-us.php">Contact Us</a>
                             </li>
-                            <li class="nav-item"> 
-                                <a class="nav-btn" href="/membership.php" style="background: var(--primary); color: white; padding: 8px 20px; border-radius: 30px; margin-left: 15px;">Member Portal</a>
-                            </li>
-                            <li class="nav-item"> 
-                                <a class="nav-btn" href="/admin/index.php" style="background: transparent; color: var(--heading-color); border: 1px solid var(--heading-color); padding: 7px 18px; border-radius: 30px; margin-left: 10px;">Admin Login</a>
-                            </li>
+                            <?php if(isset($_SESSION['user_id'])): ?>
+                                <li class="nav-item"> 
+                                    <?php 
+                                        $dashLink = (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') ? '/admin/index.php' : '/dashboard.php';
+                                    ?>
+                                    <a class="nav-btn" href="<?php echo $dashLink; ?>" style="background: var(--primary); color: white; padding: 8px 20px; border-radius: 30px; margin-left: 15px;">Dashboard</a>
+                                </li>
+                            <?php else: ?>
+                                <li class="nav-item"> 
+                                    <a class="nav-btn" href="/membership.php" style="background: var(--primary); color: white; padding: 8px 20px; border-radius: 30px; margin-left: 15px;">Member Portal</a>
+                                </li>
+                            <?php endif; ?>
                         </ul>
                     </div> <!-- navbar collapse -->
                 </nav> <!-- navbar -->
@@ -115,3 +126,4 @@
     });
 </script>
 <!-- ========================= header end ========================= -->
+

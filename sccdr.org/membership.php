@@ -67,12 +67,13 @@
 
             <!-- Login Form -->
             <div id="form-login" class="auth-pane active-pane">
-                <form onsubmit="return false;">
+                <div id="login-alert" class="alert d-none mt-2 mb-3" role="alert"></div>
+                <form id="loginForm" onsubmit="handleLogin(event)">
                     <div class="form-floating mb-4">
                         <label style="font-weight: 700; color: #475569; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 8px;">Email Address</label>
                         <div class="input-modern-wrapper">
                             <i class="fas fa-envelope input-icon"></i>
-                            <input type="email" class="form-control modern-input" placeholder="name@institution.edu">
+                            <input type="email" id="loginEmail" class="form-control modern-input" placeholder="name@institution.edu" required>
                         </div>
                     </div>
                     
@@ -83,8 +84,8 @@
                         </div>
                         <div class="input-modern-wrapper">
                             <i class="fas fa-lock input-icon"></i>
-                            <input type="password" class="form-control modern-input" placeholder="••••••••">
-                            <i class="fas fa-eye input-icon-right" style="cursor: pointer; color: #94a3b8;"></i>
+                            <input type="password" id="loginPassword" class="form-control modern-input" placeholder="••••••••" required>
+                            <i class="fas fa-eye input-icon-right" style="cursor: pointer; color: #94a3b8;" onclick="togglePassword('loginPassword')"></i>
                         </div>
                     </div>
                     
@@ -96,7 +97,7 @@
                         <span style="font-size: 14px; color: #64748b; font-weight: 500; margin-left: 10px; cursor: pointer;" onclick="document.getElementById('rememberMe').click();">Keep me signed in</span>
                     </div>
                     
-                    <button type="button" class="btn-auth-primary" style="background: #7AD03A; color: #fff;">
+                    <button type="submit" id="btnLoginSubmit" class="btn-auth-primary" style="background: #7AD03A; color: #fff;">
                         Sign In <i class="fas fa-arrow-right ml-10"></i>
                     </button>
                 </form>
@@ -104,19 +105,36 @@
 
             <!-- Registration Form -->
             <div id="form-register" class="auth-pane">
-                <form onsubmit="return false;">
+                <div id="register-alert" class="alert d-none mt-2 mb-3" role="alert"></div>
+                <form id="registerForm" onsubmit="handleRegister(event)" enctype="multipart/form-data">
+                    <!-- Profile Picture Picker -->
+                    <div class="mb-4" style="text-align:center;">
+                        <label style="font-weight: 700; color: #475569; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 12px;">Profile Picture <span style="color:#94a3b8; font-weight:400; text-transform:none; letter-spacing:0;">(optional)</span></label>
+                        <div id="avatarDropZone" onclick="document.getElementById('regProfilePic').click()"
+                             ondragover="avatarDragOver(event)" ondragleave="avatarDragLeave(event)" ondrop="avatarDrop(event)"
+                             style="width:110px; height:110px; border-radius:50%; border:2.5px dashed #d1d5db; background:#f8fafc; display:flex; align-items:center; justify-content:center; cursor:pointer; margin:0 auto; overflow:hidden; transition:border-color 0.2s, box-shadow 0.2s; position:relative;">
+                            <div id="avatarPlaceholder" style="text-align:center; pointer-events:none;">
+                                <i class="fas fa-camera" style="font-size:26px; color:#cbd5e1; display:block; margin-bottom:4px;"></i>
+                                <span style="font-size:10px; color:#94a3b8; font-weight:600;">Upload photo</span>
+                            </div>
+                            <img id="avatarPreview" src="" alt="Preview" style="display:none; width:100%; height:100%; object-fit:cover; border-radius:50%;">
+                        </div>
+                        <input type="file" id="regProfilePic" name="profile_picture" accept="image/jpeg,image/png,image/gif,image/webp" style="display:none;" onchange="avatarPreview(event)">
+                        <p style="font-size:11px; color:#94a3b8; margin-top:8px;">JPG, PNG or WebP — max 2MB</p>
+                    </div>
+
                     <div class="row">
                         <div class="col-md-6 mb-4">
                             <label style="font-weight: 700; color: #475569; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 8px;">First Name</label>
                             <div class="input-modern-wrapper">
                                 <i class="fas fa-user input-icon"></i>
-                                <input type="text" class="form-control modern-input" placeholder="Jane">
+                                <input type="text" id="regFirstName" class="form-control modern-input" placeholder="Jane" required>
                             </div>
                         </div>
                         <div class="col-md-6 mb-4">
                             <label style="font-weight: 700; color: #475569; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 8px;">Last Name</label>
                             <div class="input-modern-wrapper">
-                                <input type="text" class="form-control modern-input" placeholder="Doe" style="padding-left: 20px;">
+                                <input type="text" id="regLastName" class="form-control modern-input" placeholder="Doe" style="padding-left: 20px;" required>
                             </div>
                         </div>
                     </div>
@@ -125,7 +143,7 @@
                         <label style="font-weight: 700; color: #475569; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 8px;">Email Address</label>
                         <div class="input-modern-wrapper">
                             <i class="fas fa-envelope input-icon"></i>
-                            <input type="email" class="form-control modern-input" placeholder="name@institution.edu">
+                            <input type="email" id="regEmail" class="form-control modern-input" placeholder="name@institution.edu" required>
                         </div>
                     </div>
                     
@@ -133,7 +151,7 @@
                         <label style="font-weight: 700; color: #475569; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 8px;">Institution / Organization</label>
                         <div class="input-modern-wrapper">
                             <i class="fas fa-university input-icon"></i>
-                            <input type="text" class="form-control modern-input" placeholder="e.g. University of Lagos">
+                            <input type="text" id="regInstitution" class="form-control modern-input" placeholder="e.g. University of Lagos">
                         </div>
                     </div>
 
@@ -141,11 +159,11 @@
                         <label style="font-weight: 700; color: #475569; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 8px;">Membership Category</label>
                         <div class="input-modern-wrapper">
                             <i class="fas fa-medal input-icon"></i>
-                            <select class="form-control modern-input" style="appearance: none; cursor: pointer;">
-                                <option>Student Member</option>
-                                <option>Professional Member</option>
-                                <option>Institutional Member</option>
-                                <option>Fellow (FSCCDR)</option>
+                            <select id="regCategory" class="form-control modern-input" style="appearance: none; cursor: pointer;">
+                                <option value="Student Member">Student Member</option>
+                                <option value="Professional Member">Professional Member</option>
+                                <option value="Institutional Member">Institutional Member</option>
+                                <option value="Fellow (FSCCDR)">Fellow (FSCCDR)</option>
                             </select>
                             <i class="fas fa-chevron-down input-icon-right" style="pointer-events: none; color: #94a3b8;"></i>
                         </div>
@@ -156,18 +174,18 @@
                             <label style="font-weight: 700; color: #475569; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 8px;">Password</label>
                             <div class="input-modern-wrapper">
                                 <i class="fas fa-lock input-icon"></i>
-                                <input type="password" class="form-control modern-input" placeholder="••••••••">
+                                <input type="password" id="regPassword" class="form-control modern-input" placeholder="••••••••" required>
                             </div>
                         </div>
                         <div class="col-md-6 mb-4">
                             <label style="font-weight: 700; color: #475569; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 8px;">Confirm</label>
                             <div class="input-modern-wrapper">
-                                <input type="password" class="form-control modern-input" placeholder="••••••••" style="padding-left: 20px;">
+                                <input type="password" id="regPasswordConfirm" class="form-control modern-input" placeholder="••••••••" style="padding-left: 20px;" required>
                             </div>
                         </div>
                     </div>
                     
-                    <button type="button" class="btn-auth-primary" style="background: #144525; color: #fff;">
+                    <button type="submit" id="btnRegSubmit" class="btn-auth-primary" style="background: #144525; color: #fff;">
                         Sign Up <i class="fas fa-check-circle ml-10"></i>
                     </button>
                     
@@ -382,6 +400,156 @@
             }
         }, 150);
     }
+    
+    function togglePassword(inputId) {
+        const input = document.getElementById(inputId);
+        if (input.type === 'password') {
+            input.type = 'text';
+        } else {
+            input.type = 'password';
+        }
+    }
+
+    async function handleLogin(e) {
+        e.preventDefault();
+        const alertBox = document.getElementById('login-alert');
+        const btn = document.getElementById('btnLoginSubmit');
+        
+        const formData = new FormData();
+        formData.append('action', 'login');
+        formData.append('email', document.getElementById('loginEmail').value);
+        formData.append('password', document.getElementById('loginPassword').value);
+
+        btn.disabled = true;
+        btn.innerHTML = 'Signing In...';
+
+        try {
+            const response = await fetch('actions/auth.php', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+            
+            alertBox.classList.remove('d-none', 'alert-danger', 'alert-success');
+            if (data.status === 'success') {
+                alertBox.classList.add('alert-success');
+                alertBox.innerHTML = data.message;
+                setTimeout(() => { window.location.href = data.redirect || 'dashboard.php'; }, 1000);
+            } else {
+                alertBox.classList.add('alert-danger');
+                alertBox.innerHTML = data.message;
+                btn.disabled = false;
+                btn.innerHTML = 'Sign In <i class="fas fa-arrow-right ml-10"></i>';
+            }
+        } catch (error) {
+            alertBox.classList.remove('d-none');
+            alertBox.classList.add('alert-danger');
+            alertBox.innerHTML = 'A network error occurred. Please try again.';
+            btn.disabled = false;
+            btn.innerHTML = 'Sign In <i class="fas fa-arrow-right ml-10"></i>';
+        }
+    }
+
+    async function handleRegister(e) {
+        e.preventDefault();
+        const alertBox = document.getElementById('register-alert');
+        const btn = document.getElementById('btnRegSubmit');
+        
+        const password = document.getElementById('regPassword').value;
+        const confirm = document.getElementById('regPasswordConfirm').value;
+        
+        if(password !== confirm) {
+            alertBox.classList.remove('d-none', 'alert-success');
+            alertBox.classList.add('alert-danger');
+            alertBox.innerHTML = 'Passwords do not match.';
+            return;
+        }
+
+        const picInput = document.getElementById('regProfilePic');
+        const formData = new FormData();
+        formData.append('action', 'register');
+        formData.append('first_name', document.getElementById('regFirstName').value);
+        formData.append('last_name', document.getElementById('regLastName').value);
+        formData.append('email', document.getElementById('regEmail').value);
+        formData.append('institution', document.getElementById('regInstitution').value);
+        formData.append('category', document.getElementById('regCategory').value);
+        formData.append('password', password);
+        formData.append('password_confirm', confirm);
+        if (picInput.files[0]) formData.append('profile_picture', picInput.files[0]);
+
+        btn.disabled = true;
+        btn.innerHTML = 'Creating Account...';
+
+        try {
+            const response = await fetch('actions/auth.php', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+            
+            alertBox.classList.remove('d-none', 'alert-danger', 'alert-success');
+            if (data.status === 'success') {
+                alertBox.classList.add('alert-success');
+                alertBox.innerHTML = data.message;
+                setTimeout(() => { window.location.href = data.redirect || 'dashboard.php'; }, 1000);
+            } else {
+                alertBox.classList.add('alert-danger');
+                alertBox.innerHTML = data.message;
+                btn.disabled = false;
+                btn.innerHTML = 'Sign Up <i class="fas fa-check-circle ml-10"></i>';
+            }
+        } catch (error) {
+            alertBox.classList.remove('d-none');
+            alertBox.classList.add('alert-danger');
+            alertBox.innerHTML = 'A network error occurred. Please try again.';
+            btn.disabled = false;
+            btn.innerHTML = 'Sign Up <i class="fas fa-check-circle ml-10"></i>';
+        }
+    }
+
+    // ── Profile picture picker helpers ──────────────────────────────────────
+    function avatarPreview(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        if (file.size > 2 * 1024 * 1024) {
+            alert('Image must be under 2MB.');
+            e.target.value = '';
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = ev => {
+            document.getElementById('avatarPlaceholder').style.display = 'none';
+            const img = document.getElementById('avatarPreview');
+            img.src = ev.target.result;
+            img.style.display = 'block';
+            document.getElementById('avatarDropZone').style.borderColor = 'var(--primary-color)';
+            document.getElementById('avatarDropZone').style.boxShadow = '0 0 0 4px rgba(122,208,58,0.12)';
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function avatarDragOver(e) {
+        e.preventDefault();
+        document.getElementById('avatarDropZone').style.borderColor = 'var(--primary-color)';
+        document.getElementById('avatarDropZone').style.background = 'rgba(122,208,58,0.05)';
+    }
+
+    function avatarDragLeave(e) {
+        document.getElementById('avatarDropZone').style.background = '#f8fafc';
+    }
+
+    function avatarDrop(e) {
+        e.preventDefault();
+        const file = e.dataTransfer.files[0];
+        if (file && file.type.startsWith('image/')) {
+            const input = document.getElementById('regProfilePic');
+            const dt = new DataTransfer();
+            dt.items.add(file);
+            input.files = dt.files;
+            avatarPreview({ target: input });
+        }
+    }
 </script>
 
 <?php include 'includes/footer.php'; ?>
+

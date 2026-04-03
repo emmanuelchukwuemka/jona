@@ -79,7 +79,8 @@
                             <h2 style="font-size: 28px; color: var(--secondary);">Send a Message</h2>
                         </div>
                         
-                        <form action="#" method="POST" id="contact-form">
+                        <div id="contact-alert" class="alert d-none mb-3" role="alert" style="border-radius: 15px; padding: 15px 25px;"></div>
+                        <form action="#" method="POST" id="contact-form" onsubmit="handleContactForm(event)">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group mb-25">
@@ -122,4 +123,38 @@
         <!--========================= feature-section end========================= -->
         <!--========================= Conferences & WorkShops end========================= -->
          
-<?php include 'includes/footer.php'; ?>        <!-- ========================= footer end ========================= -->
+<?php include 'includes/footer.php'; ?>
+
+<script>
+async function handleContactForm(e) {
+    e.preventDefault();
+    const alert = document.getElementById('contact-alert');
+    const btn = e.target.querySelector('button[type="submit"]');
+    const form = document.getElementById('contact-form');
+
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-10"></i> Sending...';
+
+    const formData = new FormData(form);
+    try {
+        const res = await fetch('actions/contact.php', { method: 'POST', body: formData });
+        const data = await res.json();
+
+        alert.classList.remove('d-none', 'alert-success', 'alert-danger');
+        alert.classList.add(data.status === 'success' ? 'alert-success' : 'alert-danger');
+        alert.innerHTML = data.message;
+
+        if (data.status === 'success') {
+            form.reset();
+        }
+    } catch (err) {
+        alert.classList.remove('d-none');
+        alert.classList.add('alert-danger');
+        alert.innerHTML = 'A network error occurred. Please try again.';
+    }
+
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-paper-plane mr-10"></i> Send Message';
+}
+</script>
+

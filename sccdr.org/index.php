@@ -16,7 +16,7 @@
                                 SOCIETY FOR COMMUNITY & COMMUNICATION DEVELOPMENT RESEARCH
                             </p>
                             <div class="hero-btn wow fadeInUp" data-wow-delay=".8s">
-                                <a target="_blank" href="https://jccr.sccdr.org/index.php/jccr/user/register" class="theme-btn-modern">Become a Member</a>
+                                <a href="/membership.php" class="theme-btn-modern">Become a Member</a>
                             </div>
                         </div>
                     </div>
@@ -230,3 +230,4 @@
         <!--========================= Conferences & WorkShops end========================= -->
          
 <?php include 'includes/footer.php'; ?>        <!-- ========================= footer end ========================= -->
+

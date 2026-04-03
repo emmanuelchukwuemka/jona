@@ -139,7 +139,7 @@
                             SOCIETY FOR COMMUNITY & COMMUNICATION DEVELOPMENT RESEARCH
                             </p>
                             <p>
-                                <a target="_blank" href="https://jccr.sccdr.org/index.php/jccr/user/register" class="theme-btn-transparent  wow fadeInUp mt-2"  data-wow-delay=".6s">Become a Member</a>
+                                <a target="_blank" href="/membership.php" class="theme-btn-transparent  wow fadeInUp mt-2"  data-wow-delay=".6s">Become a Member</a>
                             </p>
                         </div>
                     </div>
@@ -472,7 +472,7 @@
                                 </div>
                                 <div class="col-8">
                                 <p class="lead" style="font-size:10px; color:#ffffff;">
-                                Click image to access Current Issue of the <a href="https://jccr.sccdr.org/index.php/jccr/index" style="color:#7AD03A;">JCCR</a>. All contents are Open Access.
+                                Click image to access Current Issue of the <a href="/membership.php" style="color:#7AD03A;">JCCR</a>. All contents are Open Access.
                                 </p>
                                 </div>
                             </div>
@@ -521,3 +521,4 @@
         <script src="main.js"></script>
     </body>
 </html>        <!-- ========================= footer end ========================= -->
+

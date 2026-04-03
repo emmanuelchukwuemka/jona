@@ -1,8 +1,24 @@
 <?php 
     $pageTitle = "Research Journals";
     $pageDescription = "Explore the Journal of Community & Communication Research (JCCR) and other academic publications by SCCDR.";
+    require_once 'includes/config.php';
+
+    // Ensure journals table exists
+    $pdo->exec("CREATE TABLE IF NOT EXISTS `journals` (
+        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `title` varchar(500) NOT NULL,
+        `category` varchar(200) NOT NULL DEFAULT 'Uncategorized',
+        `abstract` text DEFAULT NULL,
+        `file_path` varchar(500) NOT NULL,
+        `uploaded_by` int(11) DEFAULT NULL,
+        `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+        PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+    $journals = $pdo->query("SELECT * FROM journals ORDER BY created_at DESC")->fetchAll(PDO::FETCH_ASSOC);
+
     include 'includes/header.php'; 
-?>        <!-- ========================= header end ========================= -->
+?>
 
       <section id="home" class="hero-section" style="background-image: url('/assets/img/slideImg2.jpeg'); background-size: cover; background-position: center;">
             <div class="container">
@@ -16,7 +32,7 @@
                                 <span style="color:var(--white);">Journals</span>
                             </div>
                             <div class="mt-40 wow fadeInUp" data-wow-delay=".6s">
-                                <a href="https://jccr.sccdr.org/index.php/jccr/login" target="_blank" class="theme-btn-modern">Publish with JCCR</a>
+                                <a href="/membership.php" class="theme-btn-modern">Become a Member</a>
                             </div>
                         </div>
                     </div>
@@ -25,7 +41,7 @@
         </section>
 
 
-        <!--========================= feature-section start========================= -->
+        <!--========================= JCCR Feature Section =========================-->
         <section id="feature" class="feature-section pt-100 pb-100">
             <div class="container">
                 <div class="row align-items-center mb-80">
@@ -64,49 +80,11 @@
                         </div>
                     </div>
                 </div>
-<!-- 
-                        <div class="row">
-                            <div class="col-12">
-                             <h4 class="mb-20 wow fadeInDown text-center" style="color:#000000 !important;" data-wow-delay=".2s">At Present, JCCR Has</h4>
-                                <div class="row text-center">
-                                    <div class="col-6 col-md-2 offset-md-1 text-center">
-                                        <p><i class="fas fa-book" style="font-size:60px; color:#7AD03A;"></i></p>
-                                        <h3 class="mt-2" style="color:#000000 !important;">{{$fetchAllSettings->articles}}</h3>
-                                        <p>Articles</p>
-                                    </div>
-
-                                    <div class="col-6 col-md-2 text-center">
-                                        <p><i class="fas fa-user-graduate" style="font-size:60px; color:#7AD03A;"></i></p>
-                                        <h3 class="mt-2" style="color:#000000 !important;">{{$fetchAllSettings->authors}}</h3>
-                                        <p>Authors</p>
-                                    </div>
-
-                                    <div class="col-6 col-md-2 text-center">
-                                        <p><i class="fab fa-affiliatetheme" style="font-size:60px; color:#7AD03A;"></i></p>
-                                        <h3 class="mt-2" style="color:#000000 !important;">{{$fetchAllSettings->volumes}}</h3>
-                                        <p>Volumes</p>
-                                    </div>
-
-                                    <div class="col-6 col-md-2 text-center">
-                                        <p><i class="fas fa-folder-open" style="font-size:60px; color:#7AD03A;"></i></p>
-                                        <h3 class="mt-2" style="color:#000000 !important;">{{$fetchAllSettings->issues}}</h3>
-                                        <p>Issues</p>
-                                    </div>
-
-                                    <div class="col-6 col-md-2 text-center">
-                                        <p><i class="fas fa-user-edit" style="font-size:60px; color:#7AD03A;"></i></p>
-                                        <h3 class="mt-2" style="color:#000000 !important;">{{$fetchAllSettings->reviewers}}</h3>
-                                        <p>Reviewers</p>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div> -->
 
                 <div class="row mt-60 text-center">
                     <div class="col-lg-4 col-md-6 mb-30">
-                        <a href="https://jccr.sccdr.org/index.php/jccr/index" target="_blank" class="theme-btn-modern w-100 wow fadeInUp" data-wow-delay=".2s">
-                            <i class="fas fa-file-upload mr-10"></i> Publish with JCCR
+                        <a href="/membership.php" class="theme-btn-modern w-100 wow fadeInUp" data-wow-delay=".2s">
+                            <i class="fas fa-user-plus mr-10"></i> Become a Member
                         </a>
                     </div>
                     <div class="col-lg-4 col-md-6 mb-30">
@@ -123,10 +101,61 @@
             </div>
         </section>
 
+        <!--========================= Published Articles Section =========================-->
+        <?php if (!empty($journals)): ?>
+        <section class="pt-0 pb-100" style="background: #f8fafc;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center mb-60">
+                        <h4 style="text-transform: uppercase; letter-spacing: 3px; font-size: 14px; color: var(--primary); margin-bottom: 15px;">Our Publications</h4>
+                        <h2 style="font-size: 40px; color: var(--secondary); font-weight: 800;">Published Articles & Documents</h2>
+                        <p style="color: var(--text-muted); font-size: 16px; max-width: 600px; margin: 15px auto 0;">
+                            Browse and download research articles and documents published by SCCDR.
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <?php foreach($journals as $i => $journal): ?>
+                    <div class="col-lg-4 col-md-6 mb-30 wow fadeInUp" data-wow-delay="<?php echo ($i % 3) * 0.15; ?>s">
+                        <div style="background: #fff; border-radius: 20px; padding: 30px; height: 100%; box-shadow: 0 10px 30px rgba(0,0,0,0.06); display: flex; flex-direction: column; transition: transform 0.3s ease, box-shadow 0.3s ease;"
+                             onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 20px 50px rgba(0,0,0,0.12)';"
+                             onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(0,0,0,0.06)';">
+                            <!-- Icon -->
+                            <div style="width: 55px; height: 55px; background: rgba(122,208,58,0.1); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+                                <i class="fas fa-file-pdf" style="color: var(--primary); font-size: 22px;"></i>
+                            </div>
+                            <!-- Category badge -->
+                            <span style="background: rgba(20,69,37,0.08); color: var(--secondary); padding: 4px 14px; border-radius: 50px; font-size: 12px; font-weight: 700; display: inline-block; margin-bottom: 15px; width: fit-content;">
+                                <?php echo htmlspecialchars($journal['category']); ?>
+                            </span>
+                            <!-- Title -->
+                            <h4 style="font-size: 18px; font-weight: 700; color: var(--secondary); margin-bottom: 12px; line-height: 1.4; flex-grow: 1;">
+                                <?php echo htmlspecialchars($journal['title']); ?>
+                            </h4>
+                            <!-- Abstract -->
+                            <?php if($journal['abstract']): ?>
+                            <p style="font-size: 14px; color: var(--text-muted); line-height: 1.7; margin-bottom: 20px;">
+                                <?php echo htmlspecialchars(substr($journal['abstract'], 0, 130)) . (strlen($journal['abstract']) > 130 ? '...' : ''); ?>
+                            </p>
+                            <?php endif; ?>
+                            <!-- Footer -->
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 15px; border-top: 1px solid #f1f5f9;">
+                                <span style="font-size: 12px; color: #94a3b8;">
+                                    <i class="fas fa-calendar-alt mr-5"></i> <?php echo date('d M Y', strtotime($journal['created_at'])); ?>
+                                </span>
+                                <a href="<?php echo htmlspecialchars($journal['file_path']); ?>" target="_blank"
+                                   style="background: var(--primary); color: #fff; padding: 8px 20px; border-radius: 30px; font-size: 13px; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+                                    <i class="fas fa-download"></i> Download
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
             </div>
         </section>
-        <!--========================= feature-section end========================= -->
-
+        <?php endif; ?>
      
-         
-<?php include 'includes/footer.php'; ?>        <!-- ========================= footer end ========================= -->
+<?php include 'includes/footer.php'; ?>
+
+
