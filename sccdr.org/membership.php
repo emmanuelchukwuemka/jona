@@ -80,7 +80,7 @@
                     <div class="form-floating mb-4">
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <label style="font-weight: 700; color: #475569; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin:0;">Password</label>
-                            <a href="#" style="font-size: 12px; color: var(--primary-color); font-weight: 700; text-decoration: none;">Forgot Password?</a>
+                            <a href="/forgot-password.php" style="font-size: 12px; color: var(--primary-color); font-weight: 700; text-decoration: none;">Forgot Password?</a>
                         </div>
                         <div class="input-modern-wrapper">
                             <i class="fas fa-lock input-icon"></i>
@@ -424,7 +424,7 @@
         btn.innerHTML = 'Signing In...';
 
         try {
-            const response = await fetch('actions/auth.php', {
+            const response = await fetch('/actions/auth.php', {
                 method: 'POST',
                 body: formData
             });
@@ -442,6 +442,7 @@
                 btn.innerHTML = 'Sign In <i class="fas fa-arrow-right ml-10"></i>';
             }
         } catch (error) {
+            console.error('Login fetch error:', error);
             alertBox.classList.remove('d-none');
             alertBox.classList.add('alert-danger');
             alertBox.innerHTML = 'A network error occurred. Please try again.';
@@ -481,7 +482,7 @@
         btn.innerHTML = 'Creating Account...';
 
         try {
-            const response = await fetch('actions/auth.php', {
+            const response = await fetch('/actions/auth.php', {
                 method: 'POST',
                 body: formData
             });

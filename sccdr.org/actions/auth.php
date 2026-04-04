@@ -1,8 +1,18 @@
 <?php
+ob_start(); // buffer stray PHP notices/warnings
 session_start();
-header('Content-Type: application/json');
 
-require_once '../includes/config.php'; // Includes DB connection
+try {
+    require_once '../includes/config.php';
+} catch (Throwable $e) {
+    ob_end_clean();
+    header('Content-Type: application/json');
+    echo json_encode(['status' => 'error', 'message' => 'Database connection failed. Please try again later.']);
+    exit;
+}
+
+ob_end_clean(); // discard any stray output from config
+header('Content-Type: application/json');
 
 // Check if request is POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {

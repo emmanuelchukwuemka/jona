@@ -187,7 +187,8 @@ async function updateAbstractStatus(id, newStatus, selectEl) {
             selectEl.disabled = false;
         }
     } catch (e) {
-        alert('Network error. Please try again.');
+        console.error('Abstract status update failed:', e);
+        alert('Network error. Please try again.\n\nCheck the browser console (F12) for details.');
         selectEl.disabled = false;
     }
 }

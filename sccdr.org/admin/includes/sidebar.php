@@ -63,7 +63,7 @@
             <a href="../" class="footer-action" title="View Site">
                 <i class="fas fa-external-link-alt"></i>
             </a>
-            <a href="#" class="footer-action logout-action" title="Logout">
+            <a href="../actions/logout.php" class="footer-action logout-action" title="Logout">
                 <i class="fas fa-power-off"></i>
             </a>
         </div>
