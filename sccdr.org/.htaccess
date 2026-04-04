@@ -1,25 +1,2 @@
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-    RewriteBase /
-
-    # Redirect /index.php to /
-    RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/index\.php [NC]
-    RewriteRule ^index\.php$ / [R=301,L]
-
-    # Redirect /admin/index.php to /admin
-    RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/admin/index\.php [NC]
-    RewriteRule ^admin/index\.php$ /admin/ [R=301,L]
-
-    # Redirect explicit .php requests to extensionless (only for top-level files)
-    RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+(about-sccdr|board-members|contact-us|journals|our-values|resources)\.php [NC]
-    RewriteRule ^(.+)\.php$ /$1 [R=301,L]
-
-    # Serve .php files without the extension
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_FILENAME}\.php -f
-    RewriteRule ^(.*)$ $1.php [L]
-
-</IfModule>
-
-# Set default directory index
-DirectoryIndex index.php index.html
+RewriteEngine On
+ErrorDocument 404 /404.php

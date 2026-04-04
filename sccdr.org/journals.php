@@ -15,7 +15,20 @@
         PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
 
-    $journals = $pdo->query("SELECT * FROM journals ORDER BY created_at DESC")->fetchAll(PDO::FETCH_ASSOC);
+    // Pagination logic
+    $limit = 9;
+    $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
+    $offset = ($page - 1) * $limit;
+
+    $totalQuery = $pdo->query("SELECT COUNT(*) FROM journals");
+    $totalRows = $totalQuery->fetchColumn();
+    $totalPages = ceil($totalRows / $limit);
+
+    $stmt = $pdo->prepare("SELECT * FROM journals ORDER BY created_at DESC LIMIT ? OFFSET ?");
+    $stmt->bindValue(1, $limit, PDO::PARAM_INT);
+    $stmt->bindValue(2, $offset, PDO::PARAM_INT);
+    $stmt->execute();
+    $journals = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     include 'includes/header.php'; 
 ?>
@@ -152,6 +165,23 @@
                     </div>
                     <?php endforeach; ?>
                 </div>
+                
+                <?php if ($totalPages > 1): ?>
+                <div class="row mt-50">
+                    <div class="col-12 text-center">
+                        <ul class="pagination" style="display: inline-flex; list-style: none; padding: 0; gap: 8px;">
+                            <?php for ($p = 1; $p <= $totalPages; $p++): ?>
+                            <li>
+                                <a href="?page=<?= $p ?>#feature" style="display: block; width: 40px; height: 40px; line-height: 40px; border-radius: 50%; text-align: center; text-decoration: none; font-weight: 700; transition: all 0.2s; <?php echo $p === $page ? 'background: var(--primary); color: #fff; border: 1px solid var(--primary);' : 'background: #fff; color: var(--secondary); border: 1px solid #e2e8f0;'; ?>">
+                                    <?= $p ?>
+                                </a>
+                            </li>
+                            <?php endfor; ?>
+                        </ul>
+                    </div>
+                </div>
+                <?php endif; ?>
+
             </div>
         </section>
         <?php endif; ?>

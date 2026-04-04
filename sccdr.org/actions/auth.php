@@ -112,11 +112,15 @@ if ($action === 'register') {
         exit;
     }
 
-    $stmt = $pdo->prepare("SELECT id, first_name, last_name, password_hash, role FROM users WHERE email = ?");
+    $stmt = $pdo->prepare("SELECT id, first_name, last_name, password_hash, role, status FROM users WHERE email = ?");
     $stmt->execute([$email]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($user && password_verify($password, $user['password_hash'])) {
+        if (isset($user['status']) && $user['status'] === 'suspended') {
+            echo json_encode(['status' => 'error', 'message' => 'Your account has been suspended. Please contact support.']);
+            exit;
+        }
         // Generate secure session
         session_regenerate_id(true);
         $_SESSION['user_id'] = $user['id'];

@@ -38,9 +38,10 @@
             <div class="col-xl-3 col-lg-3 col-md-6 mb-40">
                 <div class="footer-widget wow fadeInUp" data-wow-delay=".8s">
                     <h3 class="footer-widget-title">Newsletter</h3>
-                    <form action="#" class="newsletter-form mt-20">
-                        <input type="email" placeholder="Your Email" style="width: 100%; padding: 12px 20px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); color: white; margin-bottom: 15px;">
-                        <button class="theme-btn-modern btn-sm" style="width: 100%;">Subscribe</button>
+                    <div id="footerNewsletterAlert" class="alert" style="display:none; font-size:13px; padding:10px; border-radius:8px; margin-bottom:15px; color:#fff;"></div>
+                    <form id="footerNewsletterForm" class="newsletter-form mt-20" onsubmit="submitFooterNewsletter(event)">
+                        <input type="email" id="fnlEmail" placeholder="Your Email" style="width: 100%; padding: 12px 20px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); color: white; margin-bottom: 15px;" required>
+                        <button type="submit" id="fnlBtn" class="theme-btn-modern btn-sm" style="width: 100%;">Subscribe</button>
                     </form>
                     <div class="footer-social-links mt-30">
                         <a href="https://www.facebook.com/sccdr.jccr" target="_blank"><i class="lni lni-facebook-filled"></i></a>
@@ -68,6 +69,41 @@
 </a>
 
 <!-- ========================= JS here ========================= -->
+<script>
+async function submitFooterNewsletter(e) {
+    e.preventDefault();
+    const btn = document.getElementById('fnlBtn');
+    const alert = document.getElementById('footerNewsletterAlert');
+    btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>...';
+    alert.style.display = 'none';
+
+    let fd = new FormData();
+    fd.append('email', document.getElementById('fnlEmail').value);
+
+    try {
+        const res = await fetch('/actions/subscribe.php', { method: 'POST', body: fd });
+        const data = await res.json();
+        
+        alert.style.display = 'block';
+        if (data.status === 'success') {
+            alert.style.background = 'rgba(16, 185, 129, 0.2)';
+            alert.style.border = '1px solid rgba(16, 185, 129, 0.4)';
+            alert.innerHTML = '<i class="fas fa-check-circle"></i> ' + data.message;
+            document.getElementById('footerNewsletterForm').reset();
+        } else {
+            alert.style.background = 'rgba(239, 68, 68, 0.2)';
+            alert.style.border = '1px solid rgba(239, 68, 68, 0.4)';
+            alert.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + data.message;
+        }
+    } catch {
+        alert.style.display = 'block';
+        alert.style.background = 'rgba(239, 68, 68, 0.2)';
+        alert.style.border = '1px solid rgba(239, 68, 68, 0.4)';
+        alert.innerHTML = 'Network error.';
+    }
+    btn.disabled = false; btn.innerHTML = 'Subscribe';
+}
+</script>
 <script src="/assets/js/bootstrap.bundle-5.0.0.alpha-1-min.js"></script>
 <script src="/assets/js/wow.min.js"></script>
 <script src="/assets/js/main.js"></script>

@@ -91,23 +91,24 @@ $thisWeek       = count(array_filter($subscribers, fn($s) => strtotime($s['creat
         <?php if($totalSubs === 0): ?>
         <p style="color:#94a3b8; font-size:13px;">You need at least one subscriber before sending a broadcast.</p>
         <?php else: ?>
-        <form>
+        <div id="newsletterAlert" class="alert" style="display:none; margin-bottom:15px; padding:10px; border-radius:8px; font-size:13px;"></div>
+        <form id="newsletterForm" onsubmit="sendNewsletter(event)">
             <div class="form-group">
                 <label>Campaign Title</label>
-                <input type="text" class="form-control" placeholder="e.g. SCCDR | Monthly Update – April 2026">
+                <input type="text" id="nlTitle" class="form-control" placeholder="e.g. SCCDR | Monthly Update – April 2026" required>
             </div>
             <div class="form-group">
                 <label>Recipients</label>
-                <select class="form-control">
-                    <option>All Subscribers (<?= $totalSubs ?>)</option>
-                    <option>Recent Subscribers (Last 30 days)</option>
+                <select id="nlRecipients" class="form-control">
+                    <option value="all">All Subscribers (<?= $totalSubs ?>)</option>
+                    <option value="recent">Recent Subscribers (Last 30 days)</option>
                 </select>
             </div>
             <div class="form-group">
                 <label>Newsletter Content</label>
-                <textarea class="form-control" rows="8" placeholder="Write newsletter body here…"></textarea>
+                <textarea id="nlContent" class="form-control" rows="8" placeholder="Write newsletter body here…" required></textarea>
             </div>
-            <button type="button" class="btn-upload" style="width:100%;">
+            <button type="submit" id="btnSendNewsletter" class="btn-upload" style="width:100%;">
                 <i class="fas fa-paper-plane"></i> Send Newsletter Blast
             </button>
         </form>
@@ -122,5 +123,47 @@ async function deleteSubscriber(id, btn) {
     const res  = await fetch('/actions/delete_subscriber.php', { method:'POST', body:fd });
     const data = await res.json();
     if (data.status === 'success') { btn.closest('tr').remove(); }
+}
+
+async function sendNewsletter(e) {
+    e.preventDefault();
+    if (!confirm('Are you sure you want to send this broadcast?')) return;
+    
+    const btn = document.getElementById('btnSendNewsletter');
+    const alertBox = document.getElementById('newsletterAlert');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+    
+    let fd = new FormData();
+    fd.append('title', document.getElementById('nlTitle').value);
+    fd.append('recipients', document.getElementById('nlRecipients').value);
+    fd.append('content', document.getElementById('nlContent').value);
+    
+    try {
+        const res = await fetch('/actions/send_newsletter.php', { method: 'POST', body: fd });
+        const data = await res.json();
+        
+        alertBox.style.display = 'block';
+        if (data.status === 'success') {
+            alertBox.style.background = 'rgba(16,185,129,0.1)';
+            alertBox.style.color = '#10b981';
+            alertBox.style.border = '1px solid #10b981';
+            alertBox.innerHTML = '<i class="fas fa-check-circle"></i> ' + data.message;
+            document.getElementById('newsletterForm').reset();
+        } else {
+            alertBox.style.background = 'rgba(239,68,68,0.1)';
+            alertBox.style.color = '#ef4444';
+            alertBox.style.border = '1px solid #ef4444';
+            alertBox.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + data.message;
+        }
+    } catch {
+        alertBox.style.display = 'block';
+        alertBox.style.background = 'rgba(239,68,68,0.1)';
+        alertBox.style.color = '#ef4444';
+        alertBox.style.border = '1px solid #ef4444';
+        alertBox.innerHTML = '<i class="fas fa-exclamation-circle"></i> Network error.';
+    }
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Newsletter Blast';
 }
 </script>

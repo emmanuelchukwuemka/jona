@@ -43,6 +43,18 @@ try {
     $stmt = $pdo->prepare("UPDATE abstracts SET status = ? WHERE id = ?");
     $stmt->execute([$newStatus, $id]);
 
+    // Send notification email
+    $get = $pdo->prepare("SELECT a.title, u.email, u.first_name FROM abstracts a JOIN users u ON a.user_id = u.id WHERE a.id = ?");
+    $get->execute([$id]);
+    $author = $get->fetch(PDO::FETCH_ASSOC);
+
+    if ($author && in_array($newStatus, ['accepted', 'rejected', 'review'])) {
+        $subject = "SCCDR: Update on your Abstract Submission";
+        $body    = "Hello " . $author['first_name'] . ",\n\nThis is to notify you that the status of your research abstract titled '" . $author['title'] . "' has been updated to: " . strtoupper($newStatus) . ".\n\nPlease log in to your member dashboard for more details.\n\nBest regards,\nSCCDR Editorial Team";
+        $headers = "From: noreply@sccdr.org\r\n";
+        mail($author['email'], $subject, $body, $headers);
+    }
+
     echo json_encode(['status' => 'success', 'message' => 'Status updated.']);
 } catch (PDOException $e) {
     echo json_encode(['status' => 'error', 'message' => 'Database error.']);

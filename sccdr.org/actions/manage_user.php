@@ -73,6 +73,21 @@ switch ($action) {
         echo json_encode(['success' => true, 'message' => 'User account has been reactivated.', 'status' => 'active']);
         break;
 
+    // ── DELETE USER ───────────────────────────────────────────────────────────
+    case 'delete':
+        if ($userId === (int)$_SESSION['user_id']) {
+            echo json_encode(['success' => false, 'message' => 'You cannot delete your own account.']);
+            exit;
+        }
+        $stmt = $pdo->prepare("DELETE FROM users WHERE id = ? AND role != 'admin'");
+        $stmt->execute([$userId]);
+        if ($stmt->rowCount()) {
+            echo json_encode(['success' => true, 'message' => 'User has been permanently deleted.']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Could not delete user (admin accounts cannot be deleted).']);
+        }
+        break;
+
     default:
         echo json_encode(['success' => false, 'message' => 'Unknown action']);
 }

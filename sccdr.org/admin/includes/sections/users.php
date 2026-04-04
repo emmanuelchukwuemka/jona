@@ -135,6 +135,12 @@ $totalSuspended = count(array_filter($allUsers, fn($u) => ($u['status'] ?? 'acti
                                         <i class="fas fa-user-slash"></i>
                                     </button>
                                     <?php endif; ?>
+                                    <button class="btn-user-action btn-delete"
+                                            title="Delete User"
+                                            data-id="<?= $u['id'] ?>"
+                                            onclick="deleteUserTableRow(this, <?= $u['id'] ?>)">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
                                 <?php else: ?>
                                     <span style="font-size:11px;color:#94a3b8;padding:0 4px;">—</span>
                                 <?php endif; ?>
@@ -292,6 +298,7 @@ $totalSuspended = count(array_filter($allUsers, fn($u) => ($u['status'] ?? 'acti
 .btn-view      { background: rgba(59,130,246,.12); color: #3b82f6; }
 .btn-suspend   { background: rgba(239,68,68,.12);  color: #ef4444; }
 .btn-unsuspend { background: rgba(16,185,129,.12); color: #10b981; }
+.btn-delete    { background: rgba(239,68,68,.12);  color: #ef4444; }
 
 /* ── Modal backdrop ── */
 .modal-backdrop {
@@ -376,6 +383,7 @@ $totalSuspended = count(array_filter($allUsers, fn($u) => ($u['status'] ?? 'acti
 .umd-btn-suspend   { background: #ef4444; color: #fff; }
 .umd-btn-unsuspend { background: #10b981; color: #fff; }
 .umd-btn-cancel    { background: #f1f5f9; color: #475569; }
+.umd-btn-delete    { background: #dc2626; color: #fff; }
 
 @media (max-width:560px) {
     .umd-detail-grid { grid-template-columns: 1fr; }
@@ -460,11 +468,12 @@ function populateUserModal(u) {
     // Footer action buttons
     const footer = document.getElementById('umdActionFooter');
     if (u.role !== 'admin') {
-        footer.innerHTML = isSusp
-            ? `<button class="umd-btn umd-btn-cancel"    onclick="closeUserModal()"><i class="fas fa-times"></i> Close</button>
-               <button class="umd-btn umd-btn-unsuspend" onclick="modalToggleSuspend(${u.id}, 'unsuspend')"><i class="fas fa-user-check"></i> Reactivate Account</button>`
-            : `<button class="umd-btn umd-btn-cancel"    onclick="closeUserModal()"><i class="fas fa-times"></i> Close</button>
-               <button class="umd-btn umd-btn-suspend"   onclick="modalToggleSuspend(${u.id}, 'suspend')"><i class="fas fa-user-slash"></i> Suspend User</button>`;
+        const suspBtn = isSusp
+            ? `<button class="umd-btn umd-btn-unsuspend" onclick="modalToggleSuspend(${u.id}, 'unsuspend')"><i class="fas fa-user-check"></i> Reactivate Account</button>`
+            : `<button class="umd-btn umd-btn-suspend"   onclick="modalToggleSuspend(${u.id}, 'suspend')"><i class="fas fa-user-slash"></i> Suspend User</button>`;
+        footer.innerHTML = `<button class="umd-btn umd-btn-cancel" onclick="closeUserModal()"><i class="fas fa-times"></i> Close</button>
+                            ${suspBtn}
+                            <button class="umd-btn umd-btn-delete" onclick="modalDeleteUser(${u.id})"><i class="fas fa-trash-alt"></i> Delete</button>`;
     } else {
         footer.innerHTML = `<button class="umd-btn umd-btn-cancel" onclick="closeUserModal()"><i class="fas fa-times"></i> Close</button>`;
     }
@@ -474,6 +483,40 @@ function populateUserModal(u) {
 function closeUserModal(event) {
     if (event && event.target !== document.getElementById('userDetailModal')) return;
     document.getElementById('userDetailModal').style.display = 'none';
+}
+
+/* ────────────────── Delete User ────────────────── */
+function deleteUserTableRow(btn, userId) {
+    if (!confirm('WARNING: Are you sure you want to PERMANENTLY delete this user?\nAll their associated records (except where NULL is allowed) will be affected.')) return;
+    const fd = new FormData();
+    fd.append('action', 'delete');
+    fd.append('user_id', userId);
+
+    fetch('/actions/manage_user.php', { method: 'POST', body: fd })
+        .then(r => r.json())
+        .then(data => {
+            if (!data.success) { alert(data.message); return; }
+            const row = document.querySelector(`#usersTable tr[data-user-id="${userId}"]`);
+            if (row) row.remove();
+            
+            // Recompute counts and update stats cards manually here if needed.
+            // Simplified: reload the page to refresh stats properly in admin mode.
+            location.reload();
+        });
+}
+
+function modalDeleteUser(userId) {
+    if (!confirm('WARNING: Are you sure you want to PERMANENTLY delete this user?')) return;
+    const fd = new FormData();
+    fd.append('action', 'delete');
+    fd.append('user_id', userId);
+
+    fetch('/actions/manage_user.php', { method: 'POST', body: fd })
+        .then(r => r.json())
+        .then(data => {
+            if (!data.success) { alert(data.message); return; }
+            location.reload(); // Refresh to update row and stats
+        });
 }
 
 /* ────────────────── Toggle suspend from table row ────────────────── */

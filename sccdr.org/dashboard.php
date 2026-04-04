@@ -522,6 +522,12 @@ $acceptedAbstracts = count(array_filter($myAbstracts, fn($a) => $a['status'] ===
                         <h3>Account Actions</h3>
                     </div>
                     <div style="display:flex; gap:12px; flex-wrap:wrap;">
+                        <a href="#" onclick="openEditProfileModal()" style="display:inline-flex; align-items:center; gap:8px; padding:11px 22px; border-radius:40px; background:#f1f5f9; color:#1e293b; font-size:13px; font-weight:600; text-decoration:none; border:1px solid #e2e8f0; transition:all 0.2s;">
+                            <i class="fas fa-user-edit" style="color:#8b5cf6;"></i> Edit Profile
+                        </a>
+                        <a href="#" onclick="openChangePasswordModal()" style="display:inline-flex; align-items:center; gap:8px; padding:11px 22px; border-radius:40px; background:#f1f5f9; color:#1e293b; font-size:13px; font-weight:600; text-decoration:none; border:1px solid #e2e8f0; transition:all 0.2s;">
+                            <i class="fas fa-key" style="color:#f59e0b;"></i> Change Password
+                        </a>
                         <a href="/contact-us.php" target="_blank" style="display:inline-flex; align-items:center; gap:8px; padding:11px 22px; border-radius:40px; background:#f1f5f9; color:#1e293b; font-size:13px; font-weight:600; text-decoration:none; border:1px solid #e2e8f0; transition:all 0.2s;">
                             <i class="fas fa-envelope" style="color:#7AD03A;"></i> Contact Support
                         </a>
@@ -634,7 +640,130 @@ async function submitAbstract(e) {
     btn.disabled = false;
     btn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Abstract';
 }
+
+// ─── EDIT PROFILE MODAL ────────────────────────────────────────────────────────
+function openEditProfileModal() {
+    document.getElementById('editProfileModal').style.display = 'flex';
+}
+function closeEditProfileModal() {
+    document.getElementById('editProfileModal').style.display = 'none';
+}
+async function submitEditProfile(e) {
+    e.preventDefault();
+    const btn = document.getElementById('btnEditProfile');
+    const alert = document.getElementById('epAlert');
+    btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+    alert.style.display = 'none';
+
+    try {
+        const res = await fetch('/actions/update_profile.php', { method: 'POST', body: new FormData(e.target) });
+        const data = await res.json();
+        alert.className = 'alert show alert-' + (data.status === 'success' ? 'success' : 'danger');
+        alert.style.display = 'block';
+        alert.innerHTML = data.message;
+        if (data.status === 'success') setTimeout(() => location.reload(), 1000);
+    } catch(err) {
+        alert.className = 'alert show alert-danger';
+        alert.style.display = 'block';
+        alert.innerHTML = 'An network error occurred.';
+    }
+    btn.disabled = false; btn.innerHTML = 'Save Changes';
+}
+
+// ─── CHANGE PASSWORD MODAL ─────────────────────────────────────────────────────
+function openChangePasswordModal() {
+    document.getElementById('changePasswordModal').style.display = 'flex';
+}
+function closeChangePasswordModal() {
+    document.getElementById('changePasswordModal').style.display = 'none';
+}
+async function submitChangePassword(e) {
+    e.preventDefault();
+    if (document.getElementById('cpNew').value !== document.getElementById('cpConfirm').value) {
+        const alert = document.getElementById('cpAlert');
+        alert.className = 'alert show alert-danger';
+        alert.style.display = 'block';
+        alert.innerHTML = 'New passwords do not match.';
+        return;
+    }
+    const btn = document.getElementById('btnChangePassword');
+    const alert = document.getElementById('cpAlert');
+    btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';
+    alert.style.display = 'none';
+
+    try {
+        const res = await fetch('/actions/change_password.php', { method: 'POST', body: new FormData(e.target) });
+        const data = await res.json();
+        alert.className = 'alert show alert-' + (data.status === 'success' ? 'success' : 'danger');
+        alert.style.display = 'block';
+        alert.innerHTML = data.message;
+        if (data.status === 'success') {
+            e.target.reset();
+            setTimeout(closeChangePasswordModal, 1500);
+        }
+    } catch(err) {
+        alert.className = 'alert show alert-danger';
+        alert.style.display = 'block';
+        alert.innerHTML = 'An network error occurred.';
+    }
+    btn.disabled = false; btn.innerHTML = 'Change Password';
+}
 </script>
+
+<!-- MODALS -->
+<div id="editProfileModal" class="sidebar-overlay" style="display:none; align-items:center; justify-content:center; padding:20px; z-index:9999;" class="show">
+    <div style="background:#fff; border-radius:16px; padding:24px; width:100%; max-width:400px; box-shadow:0 10px 40px rgba(0,0,0,0.2);">
+        <h3 style="margin-bottom:16px;">Edit Profile</h3>
+        <div id="epAlert" class="alert"></div>
+        <form onsubmit="submitEditProfile(event)">
+            <div class="form-group">
+                <label>First Name</label>
+                <input type="text" name="first_name" class="form-control" value="<?= htmlspecialchars($user['first_name']) ?>" required>
+            </div>
+            <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" name="last_name" class="form-control" value="<?= htmlspecialchars($user['last_name']) ?>" required>
+            </div>
+            <div class="form-group">
+                <label>Institution / Organisation</label>
+                <input type="text" name="institution" class="form-control" value="<?= htmlspecialchars($user['institution'] ?? '') ?>">
+            </div>
+            <div class="form-group">
+                <label>Profile Picture (Optional)</label>
+                <input type="file" name="profile_picture" class="form-control" accept="image/*">
+            </div>
+            <div style="display:flex; gap:10px; margin-top:20px;">
+                <button type="button" onclick="closeEditProfileModal()" class="btn-primary" style="background:#f1f5f9; color:#475569; flex:1;">Cancel</button>
+                <button type="submit" id="btnEditProfile" class="btn-primary" style="flex:1;">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="changePasswordModal" class="sidebar-overlay" style="display:none; align-items:center; justify-content:center; padding:20px; z-index:9999;" class="show">
+    <div style="background:#fff; border-radius:16px; padding:24px; width:100%; max-width:400px; box-shadow:0 10px 40px rgba(0,0,0,0.2);">
+        <h3 style="margin-bottom:16px;">Change Password</h3>
+        <div id="cpAlert" class="alert"></div>
+        <form onsubmit="submitChangePassword(event)">
+            <div class="form-group">
+                <label>Current Password</label>
+                <input type="password" name="current_password" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>New Password</label>
+                <input type="password" id="cpNew" name="new_password" class="form-control" minlength="6" required>
+            </div>
+            <div class="form-group">
+                <label>Confirm New Password</label>
+                <input type="password" id="cpConfirm" name="confirm_password" class="form-control" minlength="6" required>
+            </div>
+            <div style="display:flex; gap:10px; margin-top:20px;">
+                <button type="button" onclick="closeChangePasswordModal()" class="btn-primary" style="background:#f1f5f9; color:#475569; flex:1;">Cancel</button>
+                <button type="submit" id="btnChangePassword" class="btn-primary" style="flex:1; background:#f59e0b;">Change Password</button>
+            </div>
+        </form>
+    </div>
+</div>
 
 </body>
 </html>

@@ -38,6 +38,12 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 
 $stmt = $pdo->prepare("INSERT INTO messages (first_name, last_name, email, phone, message) VALUES (?, ?, ?, ?, ?)");
 if ($stmt->execute([$firstName, $lastName, $email, $phone, $message])) {
+    // Send email to admin
+    $subject = "New Contact Form Submission from $firstName $lastName";
+    $body = "You have received a new message from the SCCDR contact form.\n\nName: $firstName $lastName\nEmail: $email\nPhone: $phone\n\nMessage:\n$message\n\n--\nPlease log in to the admin panel to view and reply.";
+    $headers = "From: noreply@sccdr.org\r\nReply-To: $email\r\n";
+    mail("info@sccdr.org.ng", $subject, $body, $headers);
+
     echo json_encode(['status' => 'success', 'message' => 'Your message has been sent! We will get back to you shortly.']);
 } else {
     echo json_encode(['status' => 'error', 'message' => 'Failed to send message. Please try again.']);
