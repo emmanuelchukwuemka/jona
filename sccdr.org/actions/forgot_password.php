@@ -59,23 +59,46 @@ if ($step === 'request') {
     $ins = $pdo->prepare("INSERT INTO password_resets (email, code, expires_at) VALUES (?, ?, ?)");
     $ins->execute([$email, $code, $expires]);
 
-    // Send email
-    $name    = htmlspecialchars($user['first_name']);
-    $subject = "SCCDR — Your Password Reset Code";
-    $body    = "Dear $name,\n\n"
-             . "You requested a password reset for your SCCDR account.\n\n"
-             . "Your 6-digit reset code is:\n\n"
-             . "    $code\n\n"
-             . "This code is valid for 15 minutes. Do not share it with anyone.\n\n"
-             . "If you did not request this, please ignore this email — your account is safe.\n\n"
-             . "— The SCCDR Team\n"
-             . "https://sccdr.org";
+    // Send email using PHPMailer
+    $name = htmlspecialchars($user['first_name'] ?? '');
+    require_once '../vendor/autoload.php';
+    
+    $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
+    $sent = false;
 
-    $headers  = "From: noreply@sccdr.org\r\n";
-    $headers .= "Reply-To: noreply@sccdr.org\r\n";
-    $headers .= "X-Mailer: PHP/" . phpversion();
+    try {
+        // Server settings
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.gmail.com';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'nwekee125@gmail.com';
+        $mail->Password   = 'djvt kjsu yqew pjab';
+        $mail->SMTPSecure = \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_SMTPS;
+        $mail->Port       = 465;
 
-    $sent = mail($email, $subject, $body, $headers);
+        // Recipients
+        $mail->setFrom('nwekee125@gmail.com', 'SCCDR');
+        $mail->addAddress($email, $name);
+        $mail->addReplyTo('nwekee125@gmail.com', 'SCCDR');
+
+        // Content
+        $mail->isHTML(false);
+        $mail->Subject = "SCCDR - Your Password Reset Code";
+        $mail->Body    = "Dear $name,\n\n"
+                       . "You requested a password reset for your SCCDR account.\n\n"
+                       . "Your 6-digit reset code is:\n\n"
+                       . "    $code\n\n"
+                       . "This code is valid for 15 minutes. Do not share it with anyone.\n\n"
+                       . "If you did not request this, please ignore this email - your account is safe.\n\n"
+                       . "- The SCCDR Team\n"
+                       . "https://sccdr.org";
+
+        $mail->send();
+        $sent = true;
+    } catch (Exception $e) {
+        $sent = false;
+        error_log("Message could not be sent. Mailer Error: {$mail->ErrorInfo}");
+    }
 
     // Also store email in session so step 2 can pre-fill it
     $_SESSION['pw_reset_email'] = $email;
@@ -83,7 +106,7 @@ if ($step === 'request') {
     if ($sent) {
         echo json_encode(['status' => 'success', 'message' => 'A 6-digit reset code has been sent to your email.']);
     } else {
-        // On local dev mail() may not work — surface the code for testing
+        // On local dev mail() may not work - surface the code for testing
         $devNote = (in_array($_SERVER['REMOTE_ADDR'], ['127.0.0.1', '::1']))
                  ? " [DEV: code is <strong>$code</strong>]"
                  : '';
