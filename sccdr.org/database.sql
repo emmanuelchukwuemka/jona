@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS `journals` (
   `category` varchar(200) NOT NULL DEFAULT 'Uncategorized',
   `abstract` text DEFAULT NULL,
   `file_path` varchar(500) NOT NULL,
+  `cover_image` varchar(500) DEFAULT NULL,
   `uploaded_by` int(11) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),

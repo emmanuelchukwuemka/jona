@@ -10,6 +10,7 @@
         `category` varchar(200) NOT NULL DEFAULT 'Uncategorized',
         `abstract` text DEFAULT NULL,
         `file_path` varchar(500) NOT NULL,
+        `cover_image` varchar(500) DEFAULT NULL,
         `uploaded_by` int(11) DEFAULT NULL,
         `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
         PRIMARY KEY (`id`)
@@ -133,10 +134,16 @@
                         <div style="background: #fff; border-radius: 20px; padding: 30px; height: 100%; box-shadow: 0 10px 30px rgba(0,0,0,0.06); display: flex; flex-direction: column; transition: transform 0.3s ease, box-shadow 0.3s ease;"
                              onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 20px 50px rgba(0,0,0,0.12)';"
                              onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(0,0,0,0.06)';">
-                            <!-- Icon -->
+                            <!-- Icon or Cover Image -->
+                            <?php if(!empty($journal['cover_image'])): ?>
+                            <div style="width: 100%; height: 220px; border-radius: 15px; margin-bottom: 20px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); background: #f8fafc;">
+                                <img src="<?php echo htmlspecialchars($journal['cover_image']); ?>" alt="Cover Image" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                            </div>
+                            <?php else: ?>
                             <div style="width: 55px; height: 55px; background: rgba(122,208,58,0.1); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
                                 <i class="fas fa-file-pdf" style="color: var(--primary); font-size: 22px;"></i>
                             </div>
+                            <?php endif; ?>
                             <!-- Category badge -->
                             <span style="background: rgba(20,69,37,0.08); color: var(--secondary); padding: 4px 14px; border-radius: 50px; font-size: 12px; font-weight: 700; display: inline-block; margin-bottom: 15px; width: fit-content;">
                                 <?php echo htmlspecialchars($journal['category']); ?>

@@ -16,6 +16,7 @@ $pdo->exec("CREATE TABLE IF NOT EXISTS `journals` (
     `category` varchar(200) NOT NULL DEFAULT 'Uncategorized',
     `abstract` text DEFAULT NULL,
     `file_path` varchar(500) NOT NULL,
+    `cover_image` varchar(500) DEFAULT NULL,
     `uploaded_by` int(11) DEFAULT NULL,
     `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
     PRIMARY KEY (`id`)
@@ -60,8 +61,27 @@ if (!move_uploaded_file($file['tmp_name'], $targetPath)) {
     exit;
 }
 
-$stmt = $pdo->prepare("INSERT INTO journals (title, category, abstract, file_path, uploaded_by) VALUES (?, ?, ?, ?, ?)");
-if ($stmt->execute([$title, $category, $abstract, $publicPath, $_SESSION['user_id']])) {
+// Cover image logic
+$publicCoverPath = null;
+if (!empty($_FILES['cover_image']['tmp_name'])) {
+    $imgFile = $_FILES['cover_image'];
+    $imgExt  = strtolower(pathinfo($imgFile['name'], PATHINFO_EXTENSION));
+    $imgAllowed = ['jpg', 'jpeg', 'png', 'webp'];
+    
+    if (in_array($imgExt, $imgAllowed)) {
+        $imgDir = dirname(__DIR__) . '/assets/img/journals/';
+        if (!is_dir($imgDir)) mkdir($imgDir, 0755, true);
+        
+        $imgName   = 'cover_' . time() . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '_', $imgFile['name']);
+        $imgTarget = $imgDir . $imgName;
+        if (move_uploaded_file($imgFile['tmp_name'], $imgTarget)) {
+            $publicCoverPath = '/assets/img/journals/' . $imgName;
+        }
+    }
+}
+
+$stmt = $pdo->prepare("INSERT INTO journals (title, category, abstract, file_path, cover_image, uploaded_by) VALUES (?, ?, ?, ?, ?, ?)");
+if ($stmt->execute([$title, $category, $abstract, $publicPath, $publicCoverPath, $_SESSION['user_id']])) {
     echo json_encode(['status' => 'success', 'message' => 'Journal published successfully!']);
 } else {
     echo json_encode(['status' => 'error', 'message' => 'Database error. Could not save journal.']);

@@ -8,6 +8,7 @@ $pdo->exec("CREATE TABLE IF NOT EXISTS `journals` (
     `category` varchar(200) NOT NULL DEFAULT 'Uncategorized',
     `abstract` text DEFAULT NULL,
     `file_path` varchar(500) NOT NULL,
+    `cover_image` varchar(500) DEFAULT NULL,
     `uploaded_by` int(11) DEFAULT NULL,
     `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
     PRIMARY KEY (`id`)
@@ -152,6 +153,34 @@ $categories = [
                     </button>
                 </div>
 
+                <!-- Cover Image -->
+                <div class="section-card" style="padding:22px;">
+                    <div style="font-size:13px; font-weight:700; color:var(--heading-color); margin-bottom:14px; display:flex; align-items:center; gap:8px;">
+                        <i class="fas fa-image" style="color:#f59e0b;"></i> Cover Image
+                        <span style="color:#94a3b8; font-size:11px; font-weight:normal;">(Optional)</span>
+                    </div>
+
+                    <div id="imgDropZone"
+                         onclick="document.getElementById('cover_image').click()"
+                         ondragover="imgDragOver(event)" ondragleave="imgDragLeave(event)" ondrop="imgDrop(event)"
+                         style="border:2px dashed var(--border-color); border-radius:10px; padding:28px 16px; text-align:center; cursor:pointer; background:#f8fafc; transition:all 0.2s; position:relative; overflow:hidden;">
+                        <div id="imgPlaceholder">
+                            <i class="fas fa-image" style="font-size:38px; color:#f59e0b; opacity:0.4; display:block; margin-bottom:10px;"></i>
+                            <span style="font-size:13px; color:#64748b; font-weight:600;">Click or drag Cover Image</span><br>
+                            <span style="font-size:11px; color:#b0bec5; margin-top:4px; display:block;">JPG / PNG / WEBP (Max 5MB)</span>
+                        </div>
+                        <div id="imgSelected" style="display:none;">
+                            <img id="imgPreview" src="" style="max-height:80px; max-width:100%; border-radius:6px; margin-bottom:8px; display:block; margin-left:auto; margin-right:auto; object-fit:contain;">
+                            <div id="imgFileName" style="font-size:12px; font-weight:700; color:var(--heading-color); word-break:break-all;"></div>
+                        </div>
+                    </div>
+                    <input type="file" name="cover_image" id="cover_image" accept="image/jpeg,image/png,image/webp" style="display:none;" onchange="imgSelected(this)">
+                    <button type="button" id="imgRemoveBtn" onclick="removeImg()"
+                            style="display:none; width:100%; margin-top:10px; padding:8px; border:1px solid #fee2e2; border-radius:8px; background:#fff; color:#ef4444; font-size:12px; font-weight:700; cursor:pointer; font-family:inherit;">
+                        <i class="fas fa-times" style="margin-right:5px;"></i>Remove Image
+                    </button>
+                </div>
+
                 <!-- Category -->
                 <div class="section-card" style="padding:22px;">
                     <div style="font-size:13px; font-weight:700; color:var(--heading-color); margin-bottom:14px; display:flex; align-items:center; gap:8px;">
@@ -224,9 +253,15 @@ $categories = [
 
                 <!-- Top row: icon + category -->
                 <div style="display:flex; align-items:flex-start; gap:14px; margin-bottom:14px;">
+                    <?php if($j['cover_image']): ?>
+                    <div style="width:48px; height:68px; background:#f8fafc; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0; overflow:hidden; border:1px solid var(--border-color);">
+                        <img src="<?= htmlspecialchars($j['cover_image']) ?>" style="width:100%; height:100%; object-fit:cover;">
+                    </div>
+                    <?php else: ?>
                     <div style="width:48px; height:48px; background:rgba(239,68,68,0.08); border-radius:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
                         <i class="fas fa-file-pdf" style="font-size:22px; color:#ef4444;"></i>
                     </div>
+                    <?php endif; ?>
                     <div style="flex:1; min-width:0;">
                         <span style="display:inline-block; background:rgba(122,208,58,0.1); color:var(--primary-color); font-size:10.5px; font-weight:700; padding:3px 11px; border-radius:50px; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px;">
                             <?= htmlspecialchars($j['category']) ?>
@@ -364,6 +399,62 @@ function pdfDrop(e) {
     }
 }
 
+// ── Cover Image file picker helpers ───────────────────────────────────────────
+function imgSelected(input) {
+    const file = input.files[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+        alert('Image must be under 5MB.');
+        input.value = '';
+        return;
+    }
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        document.getElementById('imgPreview').src = e.target.result;
+        document.getElementById('imgPlaceholder').style.display = 'none';
+        document.getElementById('imgSelected').style.display    = 'block';
+        document.getElementById('imgFileName').textContent = file.name;
+        document.getElementById('imgDropZone').style.borderColor = '#f59e0b';
+        document.getElementById('imgDropZone').style.background  = 'rgba(245,158,11,0.03)';
+        document.getElementById('imgRemoveBtn').style.display    = 'block';
+    }
+    reader.readAsDataURL(file);
+}
+
+function removeImg() {
+    document.getElementById('cover_image').value = '';
+    document.getElementById('imgPlaceholder').style.display = 'block';
+    document.getElementById('imgSelected').style.display    = 'none';
+    document.getElementById('imgDropZone').style.borderColor = 'var(--border-color)';
+    document.getElementById('imgDropZone').style.background  = '#f8fafc';
+    document.getElementById('imgRemoveBtn').style.display    = 'none';
+}
+
+function imgDragOver(e) {
+    e.preventDefault();
+    document.getElementById('imgDropZone').style.borderColor = '#f59e0b';
+    document.getElementById('imgDropZone').style.background  = 'rgba(245,158,11,0.04)';
+}
+
+function imgDragLeave(e) {
+    document.getElementById('imgDropZone').style.borderColor = 'var(--border-color)';
+    document.getElementById('imgDropZone').style.background  = '#f8fafc';
+}
+
+function imgDrop(e) {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    if (file) {
+        if (!file.type.match('image.*')) {
+            alert('Only Image files are accepted.');
+            return;
+        }
+        const input = document.getElementById('cover_image');
+        const dt = new DataTransfer(); dt.items.add(file); input.files = dt.files;
+        imgSelected(input);
+    }
+}
+
 // ── Submit journal upload ─────────────────────────────────────────────────────
 async function handleJournalUpload(e) {
     e.preventDefault();
@@ -378,6 +469,18 @@ async function handleJournalUpload(e) {
     // Category select lives outside the form tag — add it manually
     const catEl = document.querySelector('select[name="category"][form="journalUploadForm"]');
     if (catEl) formData.set('category', catEl.value);
+    
+    // File input also lives outside the form tag — add it manually
+    const fileInput = document.getElementById('journal_file');
+    if (fileInput && fileInput.files[0]) {
+        formData.set('journal_file', fileInput.files[0]);
+    }
+    
+    // Cover image input
+    const imgInput = document.getElementById('cover_image');
+    if (imgInput && imgInput.files[0]) {
+        formData.set('cover_image', imgInput.files[0]);
+    }
 
     try {
         const res  = await fetch('/actions/upload_journal.php', { method: 'POST', body: formData });

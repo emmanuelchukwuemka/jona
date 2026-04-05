@@ -56,6 +56,11 @@ try {
         ");
     } catch (PDOException $e) { /* Table may already exist */ }
 
+    // Journals migrations
+    try {
+        $pdo->exec("ALTER TABLE `journals` ADD COLUMN IF NOT EXISTS `cover_image` varchar(500) DEFAULT NULL;");
+    } catch (PDOException $e) { /* Table or column may already exist, or table doesn't exist yet */ }
+
 } catch (PDOException $e) {
     throw new RuntimeException("Database connection failed: " . $e->getMessage(), 0, $e);
 }
