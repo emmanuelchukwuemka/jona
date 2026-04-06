@@ -630,13 +630,18 @@ $acceptedAbstracts = count(array_filter($myAbstracts, fn($a) => $a['status'] ===
             </div>
             <!-- ═════════════════════════════════ -->
 
-            <!-- ═══ SECTION: MY INQUIRIES ═══ -->
+            <!-- ═══ SECTION: SUPPORT DESK (CHATS) ═══ -->
             <div class="member-section" id="section-inquiries">
                 <div class="section-card">
-                    <div class="section-card-header">
-                        <h3><i class="fas fa-comment-medical" style="color:#7AD03A; margin-right:8px;"></i> My Correspondence History</h3>
+                    <div class="section-card-header d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h3 class="mb-1"><i class="fas fa-comment-medical text-emerald me-2"></i> Support Desk</h3>
+                            <p style="font-size: 13px; color: #64748b; margin: 0;">Direct professional correspondence with SCCDR Administration.</p>
+                        </div>
+                        <button class="btn-emerald-outline" onclick="openNewInquiryModal()" style="padding: 10px 20px; font-size: 13px; font-weight: 700; border-radius: 12px;">
+                            <i class="fas fa-plus me-1"></i> Start New Inquiry
+                        </button>
                     </div>
-                    <p style="font-size:14px; color:#64748b; margin-bottom:24px;">Track your inquiries and official responses from the SCCDR administration.</p>
 
                     <?php 
                     $stmtI = $pdo->prepare("SELECT * FROM messages WHERE user_id = ? ORDER BY created_at DESC");
@@ -645,29 +650,32 @@ $acceptedAbstracts = count(array_filter($myAbstracts, fn($a) => $a['status'] ===
                     ?>
 
                     <?php if(empty($myInquiries)): ?>
-                        <div class="empty-state">
-                            <i class="fas fa-history" style="opacity:0.2; font-size:48px; margin-bottom:15px;"></i>
-                            <h4>No history found</h4>
-                            <p>Once you contact SCCDR through our official forms, they will appear here.</p>
-                            <a href="/contact-us.php" target="_blank" class="btn-primary mt-3">Send New Inquiry</a>
+                        <div class="empty-state text-center py-5">
+                            <div style="width: 80px; height: 80px; background: rgba(34, 197, 94, 0.05); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                                <i class="fas fa-comments-alt" style="font-size: 32px; color: #22c55e; opacity: 0.4;"></i>
+                            </div>
+                            <h4>No active conversations</h4>
+                            <p style="color: #64748b;">Our support team is here to help. Start a new professional inquiry above.</p>
                         </div>
                     <?php else: ?>
-                        <div class="inquiry-history-list">
+                        <div class="support-chat-container">
                             <?php foreach($myInquiries as $inq): ?>
-                                <div class="inquiry-thread-card mb-4" style="border: 1px solid #e2e8f0; border-radius: 16px; overflow: hidden; background: white;">
-                                    <div class="inquiry-card-header" style="background: #f8fafc; padding: 20px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center;">
+                                <div class="support-chat-thread mb-4" id="thread-<?= $inq['id'] ?>">
+                                    <div class="thread-header d-flex justify-content-between align-items-center p-3" style="background: #f8fafc; border: 1px solid #e2e8f0; border-top-left-radius: 12px; border-top-right-radius: 12px;">
                                         <div>
-                                            <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: #94a3b8; letter-spacing: 0.5px;">Message Sent: <?= date('d M, Y', strtotime($inq['created_at'])) ?></span>
-                                            <div style="font-weight: 700; color: #1e293b; margin-top: 4px; font-size:15px;">Official Inquiry #<?= $inq['id'] ?></div>
+                                            <span style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: #94a3b8; letter-spacing: 0.5px;">Thread #<?= $inq['id'] ?> &bull; Initiated <?= date('d M, Y', strtotime($inq['created_at'])) ?></span>
+                                            <div style="font-weight: 700; color: #1e293b; font-size: 14px;"><?= htmlspecialchars(substr($inq['message'], 0, 60)) . (strlen($inq['message']) > 60 ? '...' : '') ?></div>
                                         </div>
-                                        <div class="status-badge status-<?= $inq['status'] === 'replied' ? 'accepted' : 'review' ?>" style="padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700;">
-                                            <?= $inq['status'] === 'replied' ? 'Response Received' : 'Awaiting Processing' ?>
-                                        </div>
+                                        <span class="status-badge status-<?= $inq['status'] === 'replied' ? 'accepted' : 'review' ?>" style="font-size: 10px; padding: 4px 12px; border-radius: 20px;">
+                                            <?= $inq['status'] === 'replied' ? 'Response Received' : 'Under Review' ?>
+                                        </span>
                                     </div>
-                                    <div class="inquiry-card-body" style="padding: 24px;">
-                                        <div style="font-size: 14px; color: #475569; line-height: 1.6; margin-bottom: 20px; padding: 15px; background: #fffbeb; border-left: 4px solid #f59e0b; border-radius: 6px;">
-                                            <strong style="display:block; margin-bottom: 5px; font-size: 11px; color:#92400e; text-transform: uppercase;">Your Message:</strong>
-                                            <?= nl2br(htmlspecialchars($inq['message'])) ?>
+                                    <div class="thread-messages p-4" style="background: white; border: 1px solid #e2e8f0; border-top: none; max-height: 450px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px;">
+                                        
+                                        <!-- Original Member Inquiry -->
+                                        <div class="chat-bubble bubble-member">
+                                            <div class="bubble-meta">You &bull; <?= date('d M, g:i A', strtotime($inq['created_at'])) ?></div>
+                                            <div class="bubble-text"><?= nl2br(htmlspecialchars($inq['message'])) ?></div>
                                         </div>
 
                                         <?php 
@@ -677,26 +685,23 @@ $acceptedAbstracts = count(array_filter($myAbstracts, fn($a) => $a['status'] ===
                                         ?>
 
                                         <?php foreach($replies as $reply): ?>
-                                            <div class="admin-reply-box" style="margin-top: 20px; padding: 20px; background: #f0fdf4; border: 1px solid #dcfce7; border-radius: 14px;">
-                                                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                                                    <span style="font-weight: 800; font-size: 10px; text-transform: uppercase; color: #166534; letter-spacing: 0.8px;"><i class="fas fa-shield-alt"></i> SCCDR Official Response</span>
-                                                    <span style="font-size: 10px; color: #64748b;"><?= date('d M, g:i A', strtotime($reply['created_at'])) ?></span>
-                                                </div>
-                                                <div style="font-size: 14.5px; color: #1e293b; line-height: 1.7;">
-                                                    <?= nl2br(htmlspecialchars($reply['reply_text'])) ?>
-                                                </div>
+                                            <div class="chat-bubble bubble-<?= $reply['sender_type'] ?>">
+                                                <div class="bubble-meta"><?= $reply['sender_type'] === 'admin' ? 'SCCDR Official' : 'You' ?> &bull; <?= date('d M, g:i A', strtotime($reply['created_at'])) ?></div>
+                                                <div class="bubble-text"><?= nl2br(htmlspecialchars($reply['reply_text'])) ?></div>
                                             </div>
                                         <?php endforeach; ?>
-                                        
-                                        <?php if(empty($replies)): ?>
-                                            <div style="text-align: center; padding: 15px; background: #f8fafc; border-radius: 12px; color: #94a3b8; font-size: 13px; font-style: italic;">
-                                                Once an administrator responds, it will appear here.
-                                            </div>
-                                        <?php endif; ?>
+                                    </div>
+
+                                    <div class="thread-footer p-3" style="background: #f8fafc; border: 1px solid #e2e8f0; border-top: none; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;">
+                                        <div class="d-flex gap-2">
+                                            <input type="text" id="chat-reply-input-<?= $inq['id'] ?>" class="form-control" placeholder="Type your professional response..." style="border-radius: 10px; border: 1.5px solid #e2e8f0; font-size: 14px; padding: 10px 15px;">
+                                            <button class="btn-emerald-solid" style="padding: 10px 25px; font-size: 13px;" onclick="sendDashboardChat(<?= $inq['id'] ?>)">
+                                                Send <i class="fas fa-paper-plane ms-2"></i>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             <?php endforeach; ?>
-                        </div>
                     <?php endif; ?>
                 </div>
             </div>
@@ -898,6 +903,31 @@ async function submitChangePassword(e) {
 </script>
 
 <!-- MODALS -->
+<div id="newInquiryModal" class="sidebar-overlay" style="display:none; align-items:center; justify-content:center; padding:20px; z-index:9999;">
+    <div style="background:#fff; border-radius:16px; padding:30px; width:100%; max-width:500px; box-shadow:0 20px 60px rgba(0,0,0,0.15); border: 1px solid #e2e8f0;">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 style="margin:0; font-weight:800; color:#081e0f;">Start New Inquiry</h3>
+            <button onclick="closeNewInquiryModal()" style="background:none; border:none; color:#94a3b8; cursor:pointer; font-size:20px;"><i class="fas fa-times"></i></button>
+        </div>
+        <p style="font-size:14px; color:#64748b; margin-bottom:24px;">Our administration team typically responds within 24–48 professional hours. Please describe your inquiry clearly.</p>
+        
+        <div id="niAlert" class="alert d-none"></div>
+        
+        <form onsubmit="submitNewInquiry(event)">
+            <div class="form-group mb-4">
+                <label class="form-label" style="font-weight:700; color:#1e293b; font-size:13px; text-transform:uppercase; letter-spacing:0.5px;">Your Message *</label>
+                <textarea id="niMessage" class="form-control" rows="5" placeholder="Enter your detailed inquiry here..." required style="border-radius:12px; border:1.5px solid #e2e8f0; padding:15px;"></textarea>
+            </div>
+            <div style="display:flex; gap:12px;">
+                <button type="button" onclick="closeNewInquiryModal()" class="btn-emerald-outline" style="flex:1; padding:14px; border-radius:12px;">Cancel</button>
+                <button type="submit" id="btnSubmitNI" class="btn-emerald-solid" style="flex:2; padding:12px; border-radius:12px; font-weight:800; font-size:14px;">
+                    Send Message <i class="fas fa-paper-plane ms-2"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <div id="editProfileModal" class="sidebar-overlay" style="display:none; align-items:center; justify-content:center; padding:20px; z-index:9999;" class="show">
     <div style="background:#fff; border-radius:16px; padding:24px; width:100%; max-width:400px; box-shadow:0 10px 40px rgba(0,0,0,0.2);">
         <h3 style="margin-bottom:16px;">Edit Profile</h3>
@@ -951,6 +981,111 @@ async function submitChangePassword(e) {
         </form>
     </div>
 </div>
+
+
+<script>
+// ─── CHAT SYSTEM ──────────────────────────────────────────────────────────────
+async function sendDashboardChat(messageId) {
+    const input = document.getElementById('chat-reply-input-' + messageId);
+    const replyText = input.value.trim();
+    if(!replyText) return;
+
+    const btn = event.currentTarget;
+    const originalHtml = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+
+    const formData = new FormData();
+    formData.append('message_id', messageId);
+    formData.append('reply_text', replyText);
+
+    try {
+        const res = await fetch('/actions/send_chat_message.php', { method: 'POST', body: formData });
+        const data = await res.json();
+        if(data.status === 'success') {
+            location.reload(); // Refresh to show new message
+        } else {
+            alert(data.message);
+        }
+    } catch(e) {
+        alert('Connection error');
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalHtml;
+    }
+}
+
+function openNewInquiryModal() {
+    document.getElementById('newInquiryModal').style.display = 'flex';
+    setTimeout(() => document.getElementById('niMessage').focus(), 100);
+}
+
+function closeNewInquiryModal() {
+    document.getElementById('newInquiryModal').style.display = 'none';
+    document.getElementById('niMessage').value = '';
+    document.getElementById('niAlert').classList.add('d-none');
+}
+
+async function submitNewInquiry(e) {
+    e.preventDefault();
+    const msg = document.getElementById('niMessage').value.trim();
+    const alertBox = document.getElementById('niAlert');
+    const btn = document.getElementById('btnSubmitNI');
+    
+    if(!msg) return;
+
+    const originalHtml = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-circle-notch fa-spin me-2"></i> Processing...';
+
+    const formData = new FormData();
+    formData.append('reply_text', msg);
+    formData.append('is_new_thread', 1);
+
+    try {
+        const res = await fetch('/actions/send_chat_message.php', { method: 'POST', body: formData });
+        const data = await res.json();
+        
+        if(data.status === 'success') {
+            alertBox.className = 'alert alert-success mb-4';
+            alertBox.innerHTML = '<i class="fas fa-check-circle me-2"></i> Conversation thread initialized. Redirecting...';
+            alertBox.classList.remove('d-none');
+            setTimeout(() => location.reload(), 1200);
+        } else {
+            throw new Error(data.message);
+        }
+    } catch(e) {
+        alertBox.className = 'alert alert-danger mb-4';
+        alertBox.innerHTML = '<i class="fas fa-exclamation-triangle me-2"></i> ' + e.message;
+        alertBox.classList.remove('d-none');
+        btn.disabled = false;
+        btn.innerHTML = originalHtml;
+    }
+}
+</script>
+
+<style>
+/* Support Desk Chat Aesthetics */
+.support-chat-container { border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; gap: 20px; }
+.support-chat-thread { border-radius: 12px; overflow: hidden; background: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+.thread-messages { display: flex; flex-direction: column; gap: 12px; }
+.chat-bubble { max-width: 85%; padding: 12px 18px; border-radius: 18px; position: relative; display: flex; flex-direction: column; }
+.bubble-meta { font-size: 10px; font-weight: 700; color: #94a3b8; margin-bottom: 4px; }
+.bubble-text { font-size: 13.5px; line-height: 1.55; }
+
+.bubble-member { align-self: flex-start; background: #f8fafc; border: 1px solid #e2e8f0; border-bottom-left-radius: 4px; }
+.bubble-member .bubble-text { color: #334155; }
+
+.bubble-admin { align-self: flex-end; background: #081e0f; color: #fff; border-bottom-right-radius: 4px; box-shadow: 0 4px 12px rgba(8,30,15,0.15); }
+.bubble-admin .bubble-text { color: #fff; }
+.bubble-admin .bubble-meta { color: #22c55e; }
+
+.text-emerald { color: #22c55e !important; }
+.btn-emerald-solid { background: #22c55e; color: white; border: none; border-radius: 8px; transition: all 0.2s; font-weight: 700; }
+.btn-emerald-solid:hover { background: #16a34a; transform: scale(1.02); }
+.btn-emerald-outline { background: transparent; border: 1.5px solid #22c55e; color: #22c55e; transition: all 0.2s; }
+.btn-emerald-outline:hover { background: #f0fdf4; }
+</style>
 
 </body>
 </html>

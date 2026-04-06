@@ -24,7 +24,7 @@ try {
     $pdo->beginTransaction();
 
     // 1. Save the reply
-    $stmt = $pdo->prepare("INSERT INTO message_replies (message_id, admin_id, reply_text) VALUES (?, ?, ?)");
+    $stmt = $pdo->prepare("INSERT INTO message_replies (message_id, sender_id, sender_type, reply_text) VALUES (?, ?, 'admin', ?)");
     $stmt->execute([$messageId, $adminId, $replyText]);
 
     // 2. Update parent message status

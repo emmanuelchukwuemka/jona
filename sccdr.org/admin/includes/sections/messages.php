@@ -17,16 +17,23 @@ $pdo->exec("CREATE TABLE IF NOT EXISTS `messages` (
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
 
-// Ensure the message_replies table exists
+// Ensure the message_replies table exists and is multi-sender compatible
 $pdo->exec("CREATE TABLE IF NOT EXISTS `message_replies` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `message_id` int(11) NOT NULL,
-    `admin_id` int(11) NOT NULL,
+    `sender_id` int(11) NOT NULL,
+    `sender_type` ENUM('admin', 'member') NOT NULL DEFAULT 'admin',
     `reply_text` text NOT NULL,
     `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
     PRIMARY KEY (`id`),
     FOREIGN KEY (`message_id`) REFERENCES `messages`(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+// Migration: If admin_id exists, convert it to sender_id and set sender_type to 'admin'
+try {
+    $pdo->exec("ALTER TABLE `message_replies` CHANGE `admin_id` `sender_id` int(11) NOT NULL");
+    $pdo->exec("ALTER TABLE `message_replies` ADD `sender_type` ENUM('admin', 'member') NOT NULL DEFAULT 'admin' AFTER `sender_id` ");
+} catch(Exception $e) { /* Already migrated or silent fail */ }
 
 $messages = $pdo->query("SELECT * FROM messages ORDER BY created_at DESC")->fetchAll(PDO::FETCH_ASSOC);
 $unreadCount = $pdo->query("SELECT COUNT(*) FROM messages WHERE is_read = 0")->fetchColumn();
@@ -139,14 +146,16 @@ $unreadCount = $pdo->query("SELECT COUNT(*) FROM messages WHERE is_read = 0")->f
                                     <div style="font-size: 10px; color: #94a3b8; margin-top: 8px; text-align: right;"><?php echo date('d M, g:i A', strtotime($msg['created_at'])); ?></div>
                                 </div>
 
-                                <!-- Admin Reply History -->
+                                <!-- Threaded Conversation History (Admin & Member) -->
                                 <?php foreach($replies as $reply): ?>
-                                    <div class="thread-bubble-admin" style="align-self: flex-end; max-width: 85%; background: #081e0f; color: white; padding: 18px; border-radius: 14px; border-bottom-right-radius: 4px; box-shadow: 0 4px 12px rgba(8,30,15,0.1);">
-                                        <div style="font-size: 9px; font-weight: 800; text-transform: uppercase; color: #7AD03A; margin-bottom: 8px;">Your Response</div>
+                                    <div class="thread-bubble-<?= $reply['sender_type'] ?>" style="align-self: <?= $reply['sender_type'] === 'admin' ? 'flex-end' : 'flex-start' ?>; max-width: 85%; background: <?= $reply['sender_type'] === 'admin' ? '#081e0f' : '#f8fafc' ?>; color: <?= $reply['sender_type'] === 'admin' ? 'white' : '#334155' ?>; padding: 18px; border-radius: 14px; border-<?= $reply['sender_type'] === 'admin' ? 'bottom-right' : 'bottom-left' ?>-radius: 4px; border: <?= $reply['sender_type'] === 'admin' ? 'none' : '1px solid #e2e8f0' ?>; box-shadow: <?= $reply['sender_type'] === 'admin' ? '0 4px 12px rgba(8,30,15,0.1)' : 'none' ?>;">
+                                        <div style="font-size: 9px; font-weight: 800; text-transform: uppercase; color: <?= $reply['sender_type'] === 'admin' ? '#7AD03A' : '#94a3b8' ?>; margin-bottom: 8px;">
+                                            <?= $reply['sender_type'] === 'admin' ? 'Your Response' : 'Member Follow-up' ?>
+                                        </div>
                                         <div style="font-size: 14.5px; line-height: 1.6;">
                                             <?php echo nl2br(htmlspecialchars($reply['reply_text'])); ?>
                                         </div>
-                                        <div style="font-size: 10px; color: rgba(255,255,255,0.5); margin-top: 8px; text-align: right;"><?php echo date('d M, g:i A', strtotime($reply['created_at'])); ?></div>
+                                        <div style="font-size: 10px; color: <?= $reply['sender_type'] === 'admin' ? 'rgba(255,255,255,0.5)' : '#94a3b8' ?>; margin-top: 8px; text-align: right;"><?php echo date('d M, g:i A', strtotime($reply['created_at'])); ?></div>
                                     </div>
                                 <?php endforeach; ?>
                             </div>
