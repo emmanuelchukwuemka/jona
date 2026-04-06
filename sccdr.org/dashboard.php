@@ -149,6 +149,14 @@ $acceptedAbstracts = count(array_filter($myAbstracts, fn($a) => $a['status'] ===
                 <span>My Profile</span>
             </a>
 
+            <a class="nav-item" data-section="billing" id="nav-billing">
+                <i class="fas fa-credit-card"></i>
+                <span>Billing & Membership</span>
+                <?php if($user['subscription_status'] !== 'active'): ?>
+                <span class="badge" style="background:#ef4444;">Unpaid</span>
+                <?php endif; ?>
+            </a>
+
         </div>
 
         <!-- Sidebar Footer -->
@@ -543,6 +551,77 @@ $acceptedAbstracts = count(array_filter($myAbstracts, fn($a) => $a['status'] ===
             </div>
             <!-- ═════════════════════════════════ -->
 
+
+            <!-- ═══ SECTION: BILLING & MEMBERSHIP ═══ -->
+            <div class="member-section" id="section-billing">
+                <div class="section-card">
+                    <div class="section-card-header">
+                        <h3><i class="fas fa-credit-card" style="color:#10b981; margin-right:8px;"></i> Billing & Membership</h3>
+                    </div>
+
+                    <!-- Current Status Card -->
+                    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; margin-bottom: 30px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
+                        <div>
+                            <div style="font-size: 13px; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 8px;">Subscription Status</div>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <h3 style="margin: 0; font-size: 24px; font-weight: 800; color: #1e293b;">
+                                    <?= ucfirst($user['subscription_status']) ?>
+                                </h3>
+                                <span class="status-badge status-<?= $user['subscription_status'] === 'active' ? 'accepted' : 'rejected' ?>" style="padding: 4px 12px; border-radius: 20px; font-weight: 700;">
+                                    <?= $user['subscription_status'] === 'active' ? 'Active' : 'Payment Required' ?>
+                                </span>
+                            </div>
+                            <?php if($user['subscription_end']): ?>
+                            <p style="margin: 8px 0 0; color: #64748b; font-size: 14px;">Next renewal: <?= date('d M Y', strtotime($user['subscription_end'])) ?></p>
+                            <?php endif; ?>
+                        </div>
+                        <?php if($user['subscription_status'] === 'active'): ?>
+                        <div style="text-align: right;">
+                            <div style="font-size: 13px; color: #10b981; font-weight: 700; margin-bottom: 5px;"><i class="fas fa-check-circle"></i> Fully Paid</div>
+                            <div style="font-size: 12px; color: #94a3b8;">Membership tier: <?= htmlspecialchars($user['membership_category']) ?></div>
+                        </div>
+                        <?php endif; ?>
+                    </div>
+
+                    <?php if($user['subscription_status'] !== 'active'): ?>
+                    <h4 style="margin-bottom: 20px; font-weight: 700; color: #1e293b;">Complete Your Registration</h4>
+                    <p style="color: #64748b; margin-bottom: 24px;">To access full member benefits including journal publishing and abstract submissions, please complete your membership payment for the <strong><?= htmlspecialchars($user['membership_category']) ?></strong> tier.</p>
+
+                    <div style="background: #fff; border: 2px solid #7AD03A; border-radius: 16px; padding: 30px; text-align: center; box-shadow: 0 10px 30px rgba(122,208,58,0.1);">
+                        <div style="width: 60px; height: 60px; background: rgba(122,208,58,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                            <i class="fas fa-crown" style="font-size: 28px; color: #7AD03A;"></i>
+                        </div>
+                        <h2 style="font-size: 32px; font-weight: 800; color: #1e293b; margin-bottom: 5px;">
+                            <?php 
+                                $price = $membership_prices[$user['membership_category']]['amount'] ?? 0;
+                                echo '$' . number_format($price, 2);
+                            ?>
+                        </h2>
+                        <p style="color: #64748b; font-weight: 600; margin-bottom: 25px;">Per Year</p>
+                        
+                        <ul style="text-align: left; max-width: 300px; margin: 0 auto 30px; list-style: none; padding: 0;">
+                            <li style="margin-bottom: 12px; font-size: 14px; color: #475569;"><i class="fas fa-check-circle" style="color: #7AD03A; margin-right: 10px;"></i> Full Research Access</li>
+                            <li style="margin-bottom: 12px; font-size: 14px; color: #475569;"><i class="fas fa-check-circle" style="color: #7AD03A; margin-right: 10px;"></i> Conference Abstract Submission</li>
+                            <li style="margin-bottom: 12px; font-size: 14px; color: #475569;"><i class="fas fa-check-circle" style="color: #7AD03A; margin-right: 10px;"></i> Voting Rights (FSCCDR)</li>
+                            <li style="margin-bottom: 12px; font-size: 14px; color: #475569;"><i class="fas fa-check-circle" style="color: #7AD03A; margin-right: 10px;"></i> Digital Member ID Card</li>
+                        </ul>
+
+                        <button onclick="startPaymentFlow()" id="btnPayNow" class="btn-primary" style="width: 100%; max-width: 300px; padding: 18px; font-size: 16px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; background: linear-gradient(135deg, #7AD03A 0%, #144525 100%);">
+                            Pay Now <i class="fas fa-arrow-right" style="margin-left: 10px;"></i>
+                        </button>
+                        <p style="margin-top: 15px; font-size: 12px; color: #94a3b8;"><i class="fas fa-lock"></i> Secure Payment by Stripe</p>
+                    </div>
+                    <?php else: ?>
+                    <div style="background: #ecfdf5; border: 1px solid #10b981; border-radius: 12px; padding: 24px; text-align: center;">
+                        <i class="fas fa-check-circle" style="font-size: 48px; color: #10b981; margin-bottom: 15px;"></i>
+                        <h4 style="color: #065f46; font-weight: 700; margin-bottom: 10px;">You are fully subscribed</h4>
+                        <p style="color: #047857; margin: 0;">Thank you for being a valued member of SCCDR. Your benefits are fully active.</p>
+                    </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <!-- ═════════════════════════════════ -->
+
         </div><!-- /.content-wrapper -->
     </div><!-- /.main-content -->
 
@@ -556,6 +635,7 @@ const sectionTitles = {
     'journals':        ['Research Journals', 'Publications'],
     'submit-abstract': ['Submit Abstract',   'Research'],
     'my-abstracts':    ['My Abstracts',      'Research'],
+    'billing':         ['Billing & Membership', 'Subscription'],
     'profile':         ['My Profile',        'Account'],
 };
 
@@ -639,6 +719,33 @@ async function submitAbstract(e) {
 
     btn.disabled = false;
     btn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Abstract';
+}
+
+// ─── BILLING & PAYMENTS ───────────────────────────────────────────────────────
+async function startPaymentFlow() {
+    const btn = document.getElementById('btnPayNow');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+    
+    try {
+        const response = await fetch('/actions/create_checkout_session.php', {
+            method: 'POST'
+        });
+        const data = await response.json();
+        
+        if (data.url) {
+            window.location.href = data.url;
+        } else {
+            alert(data.error || 'Failed to initialize payment session.');
+            btn.disabled = false;
+            btn.innerHTML = 'Pay Now <i class="fas fa-arrow-right" style="margin-left: 10px;"></i>';
+        }
+    } catch (error) {
+        console.error('Payment Error:', error);
+        alert('An unexpected error occurred. Please try again.');
+        btn.disabled = false;
+        btn.innerHTML = 'Pay Now <i class="fas fa-arrow-right" style="margin-left: 10px;"></i>';
+    }
 }
 
 // ─── EDIT PROFILE MODAL ────────────────────────────────────────────────────────

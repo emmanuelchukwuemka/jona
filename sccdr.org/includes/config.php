@@ -34,11 +34,44 @@ try {
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
     ");
 
+    // Stripe Configuration (Test Keys - Replace with Live in production)
+    define('STRIPE_SECRET_KEY', 'sk_test_51P...placeholder');
+    define('STRIPE_PUBLISHABLE_KEY', 'pk_test_51P...placeholder');
+    define('STRIPE_WEBHOOK_SECRET', 'whsec_...placeholder');
+
+    // Subscription pricing mapping
+    $membership_prices = [
+        'Student Member'        => ['amount' => 50,  'price_id' => 'price_student_id'],
+        'Professional Member'   => ['amount' => 100, 'price_id' => 'price_professional_id'],
+        'Institutional Member'  => ['amount' => 500, 'price_id' => 'price_institutional_id'],
+        'Fellow (FSCCDR)'       => ['amount' => 200, 'price_id' => 'price_fellow_id'],
+    ];
+
     // Migrations — add columns that older installs may not have
     try {
         $pdo->exec("ALTER TABLE `users` ADD COLUMN IF NOT EXISTS `profile_picture` varchar(500) DEFAULT NULL;");
         $pdo->exec("ALTER TABLE `users` ADD COLUMN IF NOT EXISTS `status` ENUM('active','suspended') NOT NULL DEFAULT 'active';");
+        $pdo->exec("ALTER TABLE `users` ADD COLUMN IF NOT EXISTS `subscription_status` ENUM('inactive', 'active', 'expired') NOT NULL DEFAULT 'inactive';");
+        $pdo->exec("ALTER TABLE `users` ADD COLUMN IF NOT EXISTS `subscription_end` DATETIME DEFAULT NULL;");
+        $pdo->exec("ALTER TABLE `users` ADD COLUMN IF NOT EXISTS `stripe_customer_id` VARCHAR(255) DEFAULT NULL;");
     } catch (PDOException $e) { /* Columns may already exist */ }
+
+    // Transactions table
+    try {
+        $pdo->exec("
+            CREATE TABLE IF NOT EXISTS `transactions` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `user_id` int(11) NOT NULL,
+                `stripe_session_id` varchar(255) NOT NULL,
+                `amount` decimal(10,2) NOT NULL,
+                `currency` varchar(10) NOT NULL DEFAULT 'USD',
+                `status` varchar(50) NOT NULL,
+                `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+                PRIMARY KEY (`id`),
+                KEY `user_id` (`user_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+        ");
+    } catch (PDOException $e) { /* Table may already exist */ }
 
     // Password reset tokens table
     try {

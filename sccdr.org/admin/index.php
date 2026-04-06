@@ -31,6 +31,7 @@
             include 'includes/sections/media_library.php';
             include 'includes/sections/board_members.php';
             include 'includes/sections/users.php';
+            include 'includes/sections/payments.php';
         ?>
     </div>
 </main>
