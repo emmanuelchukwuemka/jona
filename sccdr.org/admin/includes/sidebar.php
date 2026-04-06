@@ -1,3 +1,4 @@
+<?php require_once dirname(__DIR__) . '/../includes/config.php'; ?>
 <!-- Sidebar -->
 <aside class="sidebar">
     <div class="sidebar-logo">
@@ -12,7 +13,12 @@
             </a>
             <a class="nav-item" data-section="messages">
                 <i class="fas fa-inbox"></i> <span>Inbox</span>
-                <span style="background: #EF4444; color: #fff; border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 10px; margin-left: auto;">2</span>
+                <?php 
+                    $unreadCount = $pdo->query("SELECT COUNT(*) FROM messages WHERE is_read = 0")->fetchColumn();
+                    if($unreadCount > 0): 
+                ?>
+                <span style="background: #EF4444; color: #fff; border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 10px; margin-left: auto;"><?= $unreadCount ?></span>
+                <?php endif; ?>
             </a>
             <a class="nav-item" data-section="payments">
                 <i class="fas fa-credit-card"></i> <span>Payments</span>

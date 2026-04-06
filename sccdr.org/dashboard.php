@@ -137,9 +137,17 @@ $acceptedAbstracts = count(array_filter($myAbstracts, fn($a) => $a['status'] ===
                 <span>Board Members</span>
             </a>
 
-            <a class="nav-item" href="/contact-us.php" target="_blank">
-                <i class="fas fa-envelope"></i>
-                <span>Contact SCCDR</span>
+            <a class="nav-item" data-section="inquiries" id="nav-inquiries">
+                <i class="fas fa-comment-medical"></i>
+                <span>My Inquiries</span>
+                <?php 
+                    $unreadReplies = $pdo->prepare("SELECT COUNT(*) FROM messages m JOIN message_replies r ON m.id = r.message_id WHERE m.user_id = ? AND m.status = 'replied'");
+                    $unreadReplies->execute([$_SESSION['user_id']]);
+                    $replyCount = $unreadReplies->fetchColumn();
+                    if($replyCount > 0): 
+                ?>
+                <span class="badge" style="background:#7AD03A;"><?= $replyCount ?></span>
+                <?php endif; ?>
             </a>
 
             <div class="nav-label">My Account</div>
@@ -622,6 +630,77 @@ $acceptedAbstracts = count(array_filter($myAbstracts, fn($a) => $a['status'] ===
             </div>
             <!-- ═════════════════════════════════ -->
 
+            <!-- ═══ SECTION: MY INQUIRIES ═══ -->
+            <div class="member-section" id="section-inquiries">
+                <div class="section-card">
+                    <div class="section-card-header">
+                        <h3><i class="fas fa-comment-medical" style="color:#7AD03A; margin-right:8px;"></i> My Correspondence History</h3>
+                    </div>
+                    <p style="font-size:14px; color:#64748b; margin-bottom:24px;">Track your inquiries and official responses from the SCCDR administration.</p>
+
+                    <?php 
+                    $stmtI = $pdo->prepare("SELECT * FROM messages WHERE user_id = ? ORDER BY created_at DESC");
+                    $stmtI->execute([$_SESSION['user_id']]);
+                    $myInquiries = $stmtI->fetchAll(PDO::FETCH_ASSOC);
+                    ?>
+
+                    <?php if(empty($myInquiries)): ?>
+                        <div class="empty-state">
+                            <i class="fas fa-history" style="opacity:0.2; font-size:48px; margin-bottom:15px;"></i>
+                            <h4>No history found</h4>
+                            <p>Once you contact SCCDR through our official forms, they will appear here.</p>
+                            <a href="/contact-us.php" target="_blank" class="btn-primary mt-3">Send New Inquiry</a>
+                        </div>
+                    <?php else: ?>
+                        <div class="inquiry-history-list">
+                            <?php foreach($myInquiries as $inq): ?>
+                                <div class="inquiry-thread-card mb-4" style="border: 1px solid #e2e8f0; border-radius: 16px; overflow: hidden; background: white;">
+                                    <div class="inquiry-card-header" style="background: #f8fafc; padding: 20px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center;">
+                                        <div>
+                                            <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: #94a3b8; letter-spacing: 0.5px;">Message Sent: <?= date('d M, Y', strtotime($inq['created_at'])) ?></span>
+                                            <div style="font-weight: 700; color: #1e293b; margin-top: 4px; font-size:15px;">Official Inquiry #<?= $inq['id'] ?></div>
+                                        </div>
+                                        <div class="status-badge status-<?= $inq['status'] === 'replied' ? 'accepted' : 'review' ?>" style="padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700;">
+                                            <?= $inq['status'] === 'replied' ? 'Response Received' : 'Awaiting Processing' ?>
+                                        </div>
+                                    </div>
+                                    <div class="inquiry-card-body" style="padding: 24px;">
+                                        <div style="font-size: 14px; color: #475569; line-height: 1.6; margin-bottom: 20px; padding: 15px; background: #fffbeb; border-left: 4px solid #f59e0b; border-radius: 6px;">
+                                            <strong style="display:block; margin-bottom: 5px; font-size: 11px; color:#92400e; text-transform: uppercase;">Your Message:</strong>
+                                            <?= nl2br(htmlspecialchars($inq['message'])) ?>
+                                        </div>
+
+                                        <?php 
+                                        $stmtR = $pdo->prepare("SELECT * FROM message_replies WHERE message_id = ? ORDER BY created_at ASC");
+                                        $stmtR->execute([$inq['id']]);
+                                        $replies = $stmtR->fetchAll(PDO::FETCH_ASSOC);
+                                        ?>
+
+                                        <?php foreach($replies as $reply): ?>
+                                            <div class="admin-reply-box" style="margin-top: 20px; padding: 20px; background: #f0fdf4; border: 1px solid #dcfce7; border-radius: 14px;">
+                                                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                                    <span style="font-weight: 800; font-size: 10px; text-transform: uppercase; color: #166534; letter-spacing: 0.8px;"><i class="fas fa-shield-alt"></i> SCCDR Official Response</span>
+                                                    <span style="font-size: 10px; color: #64748b;"><?= date('d M, g:i A', strtotime($reply['created_at'])) ?></span>
+                                                </div>
+                                                <div style="font-size: 14.5px; color: #1e293b; line-height: 1.7;">
+                                                    <?= nl2br(htmlspecialchars($reply['reply_text'])) ?>
+                                                </div>
+                                            </div>
+                                        <?php endforeach; ?>
+                                        
+                                        <?php if(empty($replies)): ?>
+                                            <div style="text-align: center; padding: 15px; background: #f8fafc; border-radius: 12px; color: #94a3b8; font-size: 13px; font-style: italic;">
+                                                Once an administrator responds, it will appear here.
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+
         </div><!-- /.content-wrapper -->
     </div><!-- /.main-content -->
 
@@ -637,6 +716,7 @@ const sectionTitles = {
     'my-abstracts':    ['My Abstracts',      'Research'],
     'billing':         ['Billing & Membership', 'Subscription'],
     'profile':         ['My Profile',        'Account'],
+    'inquiries':       ['My Inquiries',      'Correspondence'],
 };
 
 function switchSection(key) {
