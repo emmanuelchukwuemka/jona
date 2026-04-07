@@ -64,8 +64,8 @@ if (session_status() === PHP_SESSION_NONE) {
                     <a class="navbar-brand" href="/">
                         <img src="/assets/img/logo.png" alt="Logo">
                     </a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                         <span class="toggler-icon"></span>
                         <span class="toggler-icon"></span>
@@ -83,7 +83,7 @@ if (session_status() === PHP_SESSION_NONE) {
                                 <a class="" href="/resources.php">Resources</a>
                             </li>
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
                                     About Us <i class="fas fa-angle-down"></i>
                                 </a>
                                 <ul class="dropdown-menu shadow-lg border-0" aria-labelledby="navbarDropdown" style="border-radius: 15px; padding: 15px; min-width: 200px; background: rgba(255,255,255,0.98); backdrop-filter: blur(10px);">

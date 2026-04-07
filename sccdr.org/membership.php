@@ -106,22 +106,7 @@
             <!-- Registration Form -->
             <div id="form-register" class="auth-pane">
                 <div id="register-alert" class="alert d-none mt-2 mb-3" role="alert"></div>
-                <form id="registerForm" onsubmit="handleRegister(event)" enctype="multipart/form-data">
-                    <!-- Profile Picture Picker -->
-                    <div class="mb-4" style="text-align:center;">
-                        <label style="font-weight: 700; color: #475569; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 12px;">Profile Picture <span style="color:#94a3b8; font-weight:400; text-transform:none; letter-spacing:0;">(optional)</span></label>
-                        <div id="avatarDropZone" onclick="document.getElementById('regProfilePic').click()"
-                             ondragover="avatarDragOver(event)" ondragleave="avatarDragLeave(event)" ondrop="avatarDrop(event)"
-                             style="width:110px; height:110px; border-radius:50%; border:2.5px dashed #d1d5db; background:#f8fafc; display:flex; align-items:center; justify-content:center; cursor:pointer; margin:0 auto; overflow:hidden; transition:border-color 0.2s, box-shadow 0.2s; position:relative;">
-                            <div id="avatarPlaceholder" style="text-align:center; pointer-events:none;">
-                                <i class="fas fa-camera" style="font-size:26px; color:#cbd5e1; display:block; margin-bottom:4px;"></i>
-                                <span style="font-size:10px; color:#94a3b8; font-weight:600;">Upload photo</span>
-                            </div>
-                            <img id="avatarPreview" src="" alt="Preview" style="display:none; width:100%; height:100%; object-fit:cover; border-radius:50%;">
-                        </div>
-                        <input type="file" id="regProfilePic" name="profile_picture" accept="image/jpeg,image/png,image/gif,image/webp" style="display:none;" onchange="avatarPreview(event)">
-                        <p style="font-size:11px; color:#94a3b8; margin-top:8px;">JPG, PNG or WebP — max 2MB</p>
-                    </div>
+                <form id="registerForm" onsubmit="handleRegister(event)">
 
                     <div class="row">
                         <div class="col-md-6 mb-4">
@@ -466,7 +451,6 @@
             return;
         }
 
-        const picInput = document.getElementById('regProfilePic');
         const formData = new FormData();
         formData.append('action', 'register');
         formData.append('first_name', document.getElementById('regFirstName').value);
@@ -476,7 +460,6 @@
         formData.append('category', document.getElementById('regCategory').value);
         formData.append('password', password);
         formData.append('password_confirm', confirm);
-        if (picInput.files[0]) formData.append('profile_picture', picInput.files[0]);
 
         btn.disabled = true;
         btn.innerHTML = 'Creating Account...';
@@ -508,48 +491,6 @@
         }
     }
 
-    // ── Profile picture picker helpers ──────────────────────────────────────
-    function avatarPreview(e) {
-        const file = e.target.files[0];
-        if (!file) return;
-        if (file.size > 2 * 1024 * 1024) {
-            alert('Image must be under 2MB.');
-            e.target.value = '';
-            return;
-        }
-        const reader = new FileReader();
-        reader.onload = ev => {
-            document.getElementById('avatarPlaceholder').style.display = 'none';
-            const img = document.getElementById('avatarPreview');
-            img.src = ev.target.result;
-            img.style.display = 'block';
-            document.getElementById('avatarDropZone').style.borderColor = 'var(--primary-color)';
-            document.getElementById('avatarDropZone').style.boxShadow = '0 0 0 4px rgba(122,208,58,0.12)';
-        };
-        reader.readAsDataURL(file);
-    }
-
-    function avatarDragOver(e) {
-        e.preventDefault();
-        document.getElementById('avatarDropZone').style.borderColor = 'var(--primary-color)';
-        document.getElementById('avatarDropZone').style.background = 'rgba(122,208,58,0.05)';
-    }
-
-    function avatarDragLeave(e) {
-        document.getElementById('avatarDropZone').style.background = '#f8fafc';
-    }
-
-    function avatarDrop(e) {
-        e.preventDefault();
-        const file = e.dataTransfer.files[0];
-        if (file && file.type.startsWith('image/')) {
-            const input = document.getElementById('regProfilePic');
-            const dt = new DataTransfer();
-            dt.items.add(file);
-            input.files = dt.files;
-            avatarPreview({ target: input });
-        }
-    }
 </script>
 
 <?php include 'includes/footer.php'; ?>

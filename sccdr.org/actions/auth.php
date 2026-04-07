@@ -7,7 +7,7 @@ try {
 } catch (Throwable $e) {
     ob_end_clean();
     header('Content-Type: application/json');
-    echo json_encode(['status' => 'error', 'message' => 'Database connection failed. Please try again later.']);
+    echo json_encode(['status' => 'error', 'message' => 'Database connection failed: ' . $e->getMessage()]);
     exit;
 }
 
@@ -65,24 +65,32 @@ if ($action === 'register') {
     if (!empty($_FILES['profile_picture']['tmp_name'])) {
         $file    = $_FILES['profile_picture'];
         $allowed = ['image/jpeg','image/png','image/gif','image/webp'];
-        $maxSize = 2 * 1024 * 1024; // 2 MB
+        $maxSize = 50 * 1024 * 1024; // 50 MB
 
         if (!in_array($file['type'], $allowed)) {
             echo json_encode(['status' => 'error', 'message' => 'Profile picture must be JPG, PNG, GIF or WebP.']);
             exit;
         }
         if ($file['size'] > $maxSize) {
-            echo json_encode(['status' => 'error', 'message' => 'Profile picture must be under 2MB.']);
+            echo json_encode(['status' => 'error', 'message' => 'Profile picture must be under 50MB.']);
             exit;
         }
 
         $uploadDir = __DIR__ . '/../assets/uploads/avatars/';
-        if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
+        if (!is_dir($uploadDir)) {
+            if (!mkdir($uploadDir, 0755, true)) {
+                echo json_encode(['status' => 'error', 'message' => 'Server error: Failed to create upload directory.']);
+                exit;
+            }
+        }
 
         $ext      = pathinfo($file['name'], PATHINFO_EXTENSION);
         $filename = 'avatar_' . uniqid('', true) . '.' . strtolower($ext);
         if (move_uploaded_file($file['tmp_name'], $uploadDir . $filename)) {
             $profilePicPath = '/assets/uploads/avatars/' . $filename;
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Server error: Failed to save uploaded file. Check directory permissions.']);
+            exit;
         }
     }
 

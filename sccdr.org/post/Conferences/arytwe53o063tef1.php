@@ -112,7 +112,7 @@
                             The Journal of Communication and Community Research (JCCR) invites authors to submit manuscripts for her next publication, JCCR Vol. 7, No. 2 of December 2022. Articles must be original research findi ...
                             </p>
                             <p class="text-right">
-                                <a href="/post/Uncategorized/ihz2zTY5XwiufwGQ" class="wow fadeInUp" style="color:green; font-size:12px;">Read More</a>
+                                <a href="/post/Uncategorized/ihz2zTY5XwiufwGQ.php" class="wow fadeInUp" style="color:green; font-size:12px;">Read More</a>
                             </p>
                         </div>
                     </div>
@@ -129,7 +129,7 @@
                             The SCCDR invites members of the public to join her fast-growing academic and research network. To encourage this drive, a 50% Waiver in Membership Registration Fee is offered till the end of December ...
                             </p>
                             <p class="text-right">
-                                <a href="/post/Uncategorized/tyuy2657f52f51f2" class="wow fadeInUp" style="color:green; font-size:12px;">Read More</a>
+                                <a href="/post/Uncategorized/tyuy2657f52f51f2.php" class="wow fadeInUp" style="color:green; font-size:12px;">Read More</a>
                             </p>
                         </div>
                     </div>
@@ -146,7 +146,7 @@
                             The 2nd National Conference of the SCCDR was held on 13th -16th August 2019, at Michael Okpara University of Agriculture, Umudike, Umuahia Abia State, Nigeria. The theme of the conference was RURAL IN ...
                             </p>
                             <p class="text-right">
-                                <a href="/post/Conferences/arytwe53o063tef1" class="wow fadeInUp" style="color:green; font-size:12px;">Read More</a>
+                                <a href="/post/Conferences/arytwe53o063tef1.php" class="wow fadeInUp" style="color:green; font-size:12px;">Read More</a>
                             </p>
                         </div>
                     </div>

@@ -294,7 +294,7 @@ $draftCount     = count(array_filter($posts, fn($p) => $p['status'] === 'draft')
                             <td style="padding:14px 20px; color:#64748b; font-size:12.5px;"><?= date('d M Y', strtotime($post['created_at'])) ?></td>
                             <td style="padding:14px 20px;">
                                 <div style="display:flex; align-items:center; gap:8px;">
-                                    <a href="/post/<?= htmlspecialchars($post['category']) ?>/<?= htmlspecialchars($post['slug']) ?>"
+                                    <a href="/post/<?= htmlspecialchars($post['category']) ?>/<?= htmlspecialchars($post['slug']) ?>.php"
                                        target="_blank"
                                        style="width:32px; height:32px; border:1px solid var(--border-color); border-radius:8px; display:flex; align-items:center; justify-content:center; color:#64748b; text-decoration:none; transition:all 0.2s;"
                                        title="View post"

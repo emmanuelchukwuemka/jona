@@ -106,7 +106,7 @@
                                     The Journal of Communication and Community Research (JCCR) invites authors to submit manuscripts for her next publication...
                                 </p>
                                 <div class="text-right mt-20">
-                                    <a href="/post/Uncategorized/ihz2zTY5XwiufwGQ" class="theme-btn-modern btn-sm" style="padding: 8px 15px; font-size: 12px;">Read More</a>
+                                    <a href="/post/Uncategorized/ihz2zTY5XwiufwGQ.php" class="theme-btn-modern btn-sm" style="padding: 8px 15px; font-size: 12px;">Read More</a>
                                 </div>
                             </div>
                         </div>
@@ -120,7 +120,7 @@
                                     The SCCDR invites members of the public to join her fast-growing academic and research network. 50% waiver offered...
                                 </p>
                                 <div class="text-right mt-20">
-                                    <a href="/post/Uncategorized/tyuy2657f52f51f2" class="theme-btn-modern btn-sm" style="padding: 8px 15px; font-size: 12px;">Read More</a>
+                                    <a href="/post/Uncategorized/tyuy2657f52f51f2.php" class="theme-btn-modern btn-sm" style="padding: 8px 15px; font-size: 12px;">Read More</a>
                                 </div>
                             </div>
                         </div>
@@ -134,7 +134,7 @@
                                     The 2nd National Conference of the SCCDR was held atMichael Okpara University of Agriculture, Umudike...
                                 </p>
                                 <div class="text-right mt-20">
-                                    <a href="/post/Conferences/arytwe53o063tef1" class="theme-btn-modern btn-sm" style="padding: 8px 15px; font-size: 12px;">Read More</a>
+                                    <a href="/post/Conferences/arytwe53o063tef1.php" class="theme-btn-modern btn-sm" style="padding: 8px 15px; font-size: 12px;">Read More</a>
                                 </div>
                             </div>
                         </div>
