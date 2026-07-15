@@ -1,0 +1,31 @@
+# Environment & secrets
+.env
+*.env
+
+# Composer dependencies
+/vendor/
+
+# User uploads (don't commit user files)
+/uploads/
+/assets/uploads/
+
+# macOS junk
+.DS_Store
+**/.DS_Store
+
+# Windows junk
+Thumbs.db
+desktop.ini
+
+# IDE files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Logs
+*.log
+/logs/
+
+# Dev database dumps (optional — remove this line if you want to commit the SQL)
+database_complete.sql
